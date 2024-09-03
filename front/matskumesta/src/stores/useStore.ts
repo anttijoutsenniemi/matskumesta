@@ -8,40 +8,44 @@ interface Task {
 // Define the state and actions
 interface CounterState {
   //variables
-  count: number
-  isLoading: boolean
-  tasks: Task[]
-  statusMessage: string
+  drawerOpen: boolean,
+  // count: number
+  // isLoading: boolean
+  // tasks: Task[]
+  // statusMessage: string
 
   //actions
-  increment: () => void
-  decrement: () => void
-  addTask: (task: Task) => void
-  removeTask: (id: number) => void
-  setIsLoading: (loading: boolean) => void
-  setStatusMessage: (message: string) => void
+  setDrawerOpen: (drawerState: boolean) => void,
+  // increment: () => void
+  // decrement: () => void
+  // addTask: (task: Task) => void
+  // removeTask: (id: number) => void
+  // setIsLoading: (loading: boolean) => void
+  // setStatusMessage: (message: string) => void
 }
 
 // Create the store
 const useStore = create<CounterState>((set) => ({
   //variables
-  count: 0,
-  tasks: [],
-  isLoading: false,
-  statusMessage: '',
+  drawerOpen: false,
+  // count: 0,
+  // tasks: [],
+  // isLoading: false,
+  // statusMessage: '',
 
   //actions
-  addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
+  setDrawerOpen: (drawerState) => set(() => ({ drawerOpen : drawerState })),
+  // addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
 
-  removeTask: (id) => set((state) => ({ tasks: state.tasks.filter((task) => task.id !== id),})),
+  // removeTask: (id) => set((state) => ({ tasks: state.tasks.filter((task) => task.id !== id),})),
 
-  setIsLoading: (loading) => set(() => ({ isLoading: loading })),
+  // setIsLoading: (loading) => set(() => ({ isLoading: loading })),
 
-  setStatusMessage: (message) => set(() => ({ statusMessage: message })),
+  // setStatusMessage: (message) => set(() => ({ statusMessage: message })),
 
-  increment: () => set((state) => ({ count: state.count + 1 })),
+  // increment: () => set((state) => ({ count: state.count + 1 })),
 
-  decrement: () => set((state) => ({ count: state.count - 1 })),
+  // decrement: () => set((state) => ({ count: state.count - 1 })),
 }))
 
 export default useStore
