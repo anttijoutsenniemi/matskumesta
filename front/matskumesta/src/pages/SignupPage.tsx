@@ -1,16 +1,34 @@
-// src/pages/SignUpPage.tsx
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
+import { signupSelf, loginSelf } from '../components/ApiFetches';
 
 const SignUpPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSignUp = (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log('Username:', username, 'Description:', description, 'Email:', email);
+    try {
+      let reqBody : object = { username, description, email, password};
+      const response = await signupSelf(reqBody);
+
+      if(response.message === 'User already exists'){
+        throw new Error('Username already exists');
+      }
+      else if (!response) {
+        throw new Error('Failed to sign up');
+      }
+
+      alert('Rekisteröityminen onnistui, kirjaudu sisään uusilla tunnuksillasi');
+      navigate('/login');
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
   };
 
   return (
@@ -45,6 +63,15 @@ const SignUpPage: React.FC = () => {
           required
         />
         <TextField
+          label="Salasana"
+          type="password"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <TextField
           label="Sähköposti"
           type="email"
           fullWidth
@@ -59,6 +86,7 @@ const SignUpPage: React.FC = () => {
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Rekisteröidy
         </Button>
+        <p>Onko sinulla jo käyttäjä? <Link to={'/login'}>Kirjaudu sisään tästä</Link></p>
       </Box>
     </Box>
   );

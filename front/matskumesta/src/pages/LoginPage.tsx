@@ -1,15 +1,31 @@
-// src/pages/LoginPage.tsx
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
+import { useAuth } from '../context/authContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { signupSelf, loginSelf } from '../components/ApiFetches';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Email:', email, 'Password:', password);
+    try {
+      let reqBody : object = { email, password };
+      const response = await loginSelf(reqBody);
+
+      if (!response) {
+        throw new Error('Failed to log in');
+      }
+      
+      login(response);
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+      alert('Login failed');
+    }
   };
 
   return (
@@ -48,6 +64,7 @@ const LoginPage: React.FC = () => {
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
           Kirjaudu sisään
         </Button>
+        <p>Eikö sinulla ole vielä käyttäjää? <Link to={'/signup'}>Rekisteröidy tästä</Link></p>
       </Box>
     </Box>
   );

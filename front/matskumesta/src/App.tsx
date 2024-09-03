@@ -4,6 +4,7 @@ import MainLayout from './components/MainLayout';
 import HomePage from './pages/HomePage';
 import SignUpPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 const App: React.FC = () => {
@@ -11,9 +12,11 @@ const App: React.FC = () => {
     <Router>
       <MainLayout>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/*Public routes*/}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          {/*Protected routes*/}
+          <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
         </Routes>
       </MainLayout>
     </Router>
