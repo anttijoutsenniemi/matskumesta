@@ -30,11 +30,11 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const getSubtitle = (path: string) => {
     switch (path) {
       case '/':
-        return 'Home';
-      case '/test':
-        return 'Testisivuaaa';
-      case '/contact':
-        return 'Contact Us';
+        return 'Etusivu';
+      case '/login':
+        return 'Kirjaudu';
+      case '/signup':
+        return 'Rekisteröidy';
       default:
         return '';
     }
@@ -52,7 +52,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Header>
         <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Main Title
+            Matskumesta
           </Typography>
           <Typography variant="subtitle1">{subtitle}</Typography>
           <IconButton
@@ -69,8 +69,9 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box sx={{ width: 250, padding: 5 }} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
           {/* Drawer content goes here */}
-          <Link to={'/'}><p>Go to homepage</p></Link>
-          <Link to={'/test'}><p>Go to test page</p></Link>
+          <Link to={'/'}><p>Siirry etusivulle</p></Link>
+          <Link to={'/login'}><p>Siirry kirjautumissivulle</p></Link>
+          <Link to={'/signup'}><p>Siirry rekisteröitymissivulle</p></Link>
         </Box>
       </Drawer>
       <MainContainer>
