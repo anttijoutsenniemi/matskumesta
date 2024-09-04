@@ -30,11 +30,13 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const getSubtitle = (path: string) => {
     switch (path) {
       case '/':
-        return 'Etusivu';
+        return 'Tervetuloa';
       case '/login':
         return 'Kirjaudu';
       case '/signup':
         return 'Rekisteröidy';
+      case '/home':
+        return 'Etusivu';
       default:
         return '';
     }

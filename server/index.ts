@@ -28,7 +28,6 @@ const authenticateToken = (req: Request, res: Response, next: any) => {
 
   jwt.verify(token, process.env.SECRET_KEY!, (err, user) => {
     if (err) return res.status(403).json({ message: 'Invalid token' });
-    req.body.user = user;
     next();
   });
 };
@@ -61,9 +60,9 @@ const port = process.env.PORT || 8000;
 
 app.use(bodyParser.json()); //receive req.body
 
-//here only these routes are authenticated at the moment
-app.use("/apiroute", /*authenticate,*/ authenticateToken, apiRoute);
-app.use("/airoute", authenticate, aiRoute);
+//some routes double authenticated
+app.use("/apiroute", authenticate, authenticateToken, apiRoute);
+app.use("/airoute", authenticate, authenticateToken, aiRoute);
 app.use("/auth", authenticate, authRoute);
 
 app.get("/", (req: Request, res: Response) => {
