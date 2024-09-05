@@ -20,7 +20,7 @@ const LoginPage: React.FC = () => {
         throw new Error('Failed to log in');
       }
       
-      login(response);
+      login(response.token, response.username);
       navigate('/');
     } catch (error) {
       console.error(error);

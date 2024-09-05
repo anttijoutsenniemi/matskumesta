@@ -53,7 +53,7 @@ authRoute.post('/login', async (req: Request, res: Response) => {
       expiresIn: '6 days',
     });
   
-    res.json(token);
+    res.json({ token: token, username : user.username });
   });
 
 export default authRoute;
