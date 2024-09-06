@@ -56,11 +56,13 @@ const SignUpPage: React.FC = () => {
 
     try {
       let reqBody : object = { username: trimmedUsername, description : trimmedDescription, email : trimmedEmail, password : trimmedPassword};
-      console.log(trimmedUsername, trimmedDescription, trimmedEmail, trimmedPassword);
       const response = await signupSelf(reqBody);
 
       if(response.message === 'User already exists'){
         throw new Error('Username already exists');
+      }
+      else if(response.errors){
+        throw new Error('Signup failed, check your inputs and try again');
       }
       else if (!response) {
         throw new Error('Failed to sign up');

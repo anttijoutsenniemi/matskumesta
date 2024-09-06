@@ -41,11 +41,14 @@ const LoginPage: React.FC = () => {
     }
 
     try {
-      let reqBody : object = { email, password };
+      let reqBody : object = { email: trimmedEmail, password: trimmedPassword };
       const response = await loginSelf(reqBody);
 
       if (!response) {
         throw new Error('Failed to log in');
+      }
+      else if(response.errors){
+        throw new Error('Login failed, check your inputs and try again');
       }
       
       login(response.token, response.username);

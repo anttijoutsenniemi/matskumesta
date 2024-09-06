@@ -3,10 +3,11 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 const authRoute : express.Router = express.Router();
 import userModel, { UserData } from '../dbModels/users';
+import { validateSignUp, validateLogin } from '../functions/validationMiddleware';
 
 const userModule = userModel();
 
-authRoute.post("/signup", async (req : express.Request, res : express.Response) : Promise<void> => { 
+authRoute.post("/signup", validateSignUp, async (req : express.Request, res : express.Response) : Promise<void> => { 
     try {
 
     const { username, description, email, password } = req.body;
@@ -37,7 +38,7 @@ authRoute.post("/signup", async (req : express.Request, res : express.Response) 
     }
 });
 
-authRoute.post('/login', async (req: Request, res: Response) => {
+authRoute.post('/login', validateLogin, async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     let user = await userModule.fetchOneWithEmail(email);

@@ -75,14 +75,15 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box sx={{ width: 250, padding: 5 }} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
           {/* Drawer content goes here */}
+          {
+            (isSeller)
+            ? <Button variant='contained' color='primary' onClick={()=> changeSellerStatus(false)}>Vaihda ostajatilaan</Button>
+            : <Button variant='contained' color='primary' onClick={()=> changeSellerStatus(true)}>Vaihda myyjätilaan</Button>
+          }
           <Link to={'/home'}><p>Siirry etusivulle</p></Link>
           <Link to={'/login'}><p>Siirry kirjautumissivulle</p></Link>
           <Link to={'/signup'}><p>Siirry rekisteröitymissivulle</p></Link>
-          {
-            (isSeller)
-            ? <Button color='primary' onClick={()=> changeSellerStatus(false)}>Vaihda ostajatilaan</Button>
-            : <Button color='primary' onClick={()=> changeSellerStatus(true)}>Vaihda myyjätilaan</Button>
-          }
+
           
         </Box>
       </Drawer>
