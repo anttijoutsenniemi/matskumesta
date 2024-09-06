@@ -10,10 +10,53 @@ const SignUpPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // Define maximum length constants
+  const MAX_USERNAME_LENGTH = 20;
+  const MAX_DESCRIPTION_LENGTH = 100;
+  const MAX_EMAIL_LENGTH = 80;
+  const MAX_PASSWORD_LENGTH = 50;
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Trim leading and trailing whitespace
+    const trimmedUsername = username.trim();
+    const trimmedEmail = email.trim();
+    const trimmedDescription = description.trim(); // Only trims spaces at the start and end
+    const trimmedPassword = password.trim();
+
+    // Perform validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/; // Minimum 8 characters, includes uppercase, lowercase, number, and special character
+
+    if (trimmedUsername.length > MAX_USERNAME_LENGTH) {
+      alert(`Käyttäjänimi ei voi olla pidempi kuin ${MAX_USERNAME_LENGTH} merkkiä`);
+      return;
+    }
+    if (!emailPattern.test(trimmedEmail)) {
+      alert('Sähköpostiosoite ei ole kelvollinen');
+      return;
+    }
+    if (trimmedEmail.length > MAX_EMAIL_LENGTH) {
+      alert(`Sähköposti ei voi olla pidempi kuin ${MAX_EMAIL_LENGTH} merkkiä`);
+      return;
+    }
+    if (trimmedDescription.length > MAX_DESCRIPTION_LENGTH) {
+      alert(`Kuvaus ei voi olla pidempi kuin ${MAX_DESCRIPTION_LENGTH} merkkiä`);
+      return;
+    }
+    if (password.length > MAX_PASSWORD_LENGTH) {
+      alert(`Salasana ei voi olla pidempi kuin ${MAX_PASSWORD_LENGTH} merkkiä`);
+      return;
+    }
+    if (!passwordPattern.test(trimmedPassword)) {
+      alert('Salasanan on oltava vähintään 8 merkkiä ja sisällettävä isoja ja pieniä kirjaimia, numeroita ja erikoismerkkejä.');
+      return;
+    }
+
     try {
-      let reqBody : object = { username, description, email, password};
+      let reqBody : object = { username: trimmedUsername, description : trimmedDescription, email : trimmedEmail, password : trimmedPassword};
+      console.log(trimmedUsername, trimmedDescription, trimmedEmail, trimmedPassword);
       const response = await signupSelf(reqBody);
 
       if(response.message === 'User already exists'){
