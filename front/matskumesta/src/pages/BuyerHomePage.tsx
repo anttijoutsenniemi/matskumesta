@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 
 const BuyerHomePage: React.FC = () => {
   const { username } = useStore();
-  return <div><Typography variant='h4'>Tervetuloa Matskumestaan ostaja {username}!</Typography></div>;
+  return <div><Typography variant='h4'>Ostajan: {username} mesta</Typography></div>;
 };
 
 export default BuyerHomePage;
