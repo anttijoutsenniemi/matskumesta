@@ -26,9 +26,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
         <footer className="modal-footer">
           {/* <button className='modal-option-button' onClick={() => openInOnlineMarketplace()}>Open in 3D-view at home</button> */}
           {/* <button className='modal-option-button' onClick={() => openInOnlineMarketplace()}>Open in online store</button> */}
-          <a href={`${product.productUrl}`} target="_blank" rel="noopener noreferrer">
-            <div className='modal-option-button'>Avaa verkkokaupassa</div>
-          </a>
+
+        <button className='modal-option-button'>Avaa verkkokaupassa</button>
+
         </footer>
       </div>
     </div>

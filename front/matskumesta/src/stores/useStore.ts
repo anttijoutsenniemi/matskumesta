@@ -11,6 +11,8 @@ interface CounterState {
   drawerOpen: boolean,
   username: string,
   isSeller: boolean,
+  modalOpen: boolean,
+  selectedProduct: any,
   // count: number
   // isLoading: boolean
   // tasks: Task[]
@@ -20,6 +22,8 @@ interface CounterState {
   setDrawerOpen: (drawerState: boolean) => void,
   setUserName: (username: string) => void,
   setIsSeller: (seller: boolean) => void,
+  setModalOpen: (modalState: boolean) => void,
+  setSelectedProduct: (product : any) => void,
   // increment: () => void
   // decrement: () => void
   // addTask: (task: Task) => void
@@ -34,6 +38,8 @@ const useStore = create<CounterState>((set) => ({
   drawerOpen: false,
   username: '',
   isSeller: false,
+  modalOpen: false,
+  selectedProduct: null,
   // count: 0,
   // tasks: [],
   // isLoading: false,
@@ -43,6 +49,9 @@ const useStore = create<CounterState>((set) => ({
   setDrawerOpen: (drawerState) => set(() => ({ drawerOpen : drawerState })),
   setUserName: (username) => set(() => ({ username: username })),
   setIsSeller: (seller) => set(() => ({ isSeller: seller })),
+  setModalOpen: (modalState) => set(() => ({ modalOpen: modalState })),
+  setSelectedProduct: (product) => set(() => ({ selectedProduct: product })),
+  
   // addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
 
   // removeTask: (id) => set((state) => ({ tasks: state.tasks.filter((task) => task.id !== id),})),
