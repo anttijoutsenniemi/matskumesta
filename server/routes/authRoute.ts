@@ -50,9 +50,10 @@ authRoute.post('/login', validateLogin, async (req: Request, res: Response) => {
     const SECRET_KEY = process.env.SECRET_KEY!;
 
     // Generate JWT
-    const token = jwt.sign({ email: user.email, username: user.username }, SECRET_KEY, {
+    const token = jwt.sign({ email: user.email, username: user.username }, String(SECRET_KEY), {
       expiresIn: '6 days',
     });
+    console.log(token);
   
     res.json({ token: token, username : user.username });
   });

@@ -4,9 +4,11 @@ import { Button, Typography } from '@mui/material';
 import Modal from '../components/Modal';
 import ProductGrid, { Product } from '../components/ProductGrid';
 import naama from './../assets/naama.png';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
   const { username, modalOpen, setModalOpen, setSelectedProduct, selectedProduct } = useStore();
+  const navigate = useNavigate();
 
   const openModal = () => {
     setModalOpen(true);
@@ -66,7 +68,7 @@ const HomePage: React.FC = () => {
     openModal();
   };
   const addProducts = () => {
-
+    navigate('/addproducts');
   }
 
   return <div>

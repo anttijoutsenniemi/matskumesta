@@ -23,11 +23,19 @@ const authenticate =
 });
 
 const authenticateToken = (req: Request, res: Response, next: any) => {
-  const token = req.headers['authorization']?.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'Access denied' });
+  const authHeader = req.headers['authorization'];
 
-  jwt.verify(token, process.env.SECRET_KEY!, (err, user) => {
-    if (err) return res.status(403).json({ message: 'Invalid token' });
+  const token = authHeader?.split(' ')[1]; // Retrieve the token after 'Bearer'
+
+  if (!token) {
+    return res.status(401).json({ message: 'Access denied' });
+  }
+
+  jwt.verify(token, String(process.env.SECRET_KEY!), (err, user) => {
+    if (err) {
+      // console.error('JWT verification failed:', err); // Log the error details
+      return res.status(403).json({ message: 'Invalid token' });
+    }
     next();
   });
 };
@@ -62,7 +70,7 @@ app.use(bodyParser.json()); //receive req.body
 
 //some routes double authenticated
 app.use("/apiroute", authenticate, authenticateToken, apiRoute);
-app.use("/airoute", authenticate, authenticateToken, aiRoute);
+app.use("/airoute", /*authenticate,*/ authenticateToken, aiRoute);
 app.use("/auth", authenticate, authRoute);
 
 app.get("/", (req: Request, res: Response) => {

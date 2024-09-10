@@ -5,6 +5,14 @@ interface Task {
     title: string
 }
 
+interface FilledProduct {
+  title: string,
+  description: string,
+  amount: string,
+  weight: string,
+  quality: string,
+}
+
 // Define the state and actions
 interface CounterState {
   //variables
@@ -13,6 +21,11 @@ interface CounterState {
   isSeller: boolean,
   modalOpen: boolean,
   selectedProduct: any,
+  loadingMessage: string,
+  loading: boolean,
+  errorMessage: string,
+  filledProduct: FilledProduct | null,
+  manyFilledProducts: FilledProduct[] | null,
   // count: number
   // isLoading: boolean
   // tasks: Task[]
@@ -24,6 +37,11 @@ interface CounterState {
   setIsSeller: (seller: boolean) => void,
   setModalOpen: (modalState: boolean) => void,
   setSelectedProduct: (product : any) => void,
+  setLoadingMessage: (loadingMsg : string) => void,
+  setLoading: (loadingStatus: boolean) => void,
+  setErrorMessage: (errorMsg: string) => void,
+  setFilledProduct: (filledProd: FilledProduct) => void,
+  setManyFilledProducts: (manyFilledProd: FilledProduct[]) => void
   // increment: () => void
   // decrement: () => void
   // addTask: (task: Task) => void
@@ -40,6 +58,11 @@ const useStore = create<CounterState>((set) => ({
   isSeller: false,
   modalOpen: false,
   selectedProduct: null,
+  loadingMessage: 'Odota hetki...',
+  loading: false,
+  errorMessage: '',
+  filledProduct: null,
+  manyFilledProducts: null,
   // count: 0,
   // tasks: [],
   // isLoading: false,
@@ -51,6 +74,11 @@ const useStore = create<CounterState>((set) => ({
   setIsSeller: (seller) => set(() => ({ isSeller: seller })),
   setModalOpen: (modalState) => set(() => ({ modalOpen: modalState })),
   setSelectedProduct: (product) => set(() => ({ selectedProduct: product })),
+  setLoadingMessage: (loadingMsg) => set(() => ({ loadingMessage: loadingMsg })),
+  setLoading: (loadingStatus) => set(() => ({ loading: loadingStatus })),
+  setErrorMessage: (errorMsg) => set(() => ({ errorMessage: errorMsg})),
+  setFilledProduct: (filledProd) => set(() => ({ filledProduct: filledProd })),
+  setManyFilledProducts: (manyFilledProd) => set(() =>({ manyFilledProducts: manyFilledProd })),
   
   // addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
 

@@ -9,6 +9,8 @@ import SignUpPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import useStore from './stores/useStore';
+import AddProductsPage from './pages/AddProductsPage';
+import ConfirmProductsPage from './pages/ConfirmProductsPage';
 
 const App: React.FC = () => {
   const { isSeller, setIsSeller } = useStore();
@@ -24,8 +26,16 @@ const App: React.FC = () => {
           {/*Protected routes*/}
           {
             (isSeller)
-            ? <Route path="/home" element={<ProtectedRoute><SellerHomePage /></ProtectedRoute>} />
-            : <Route path="/home" element={<ProtectedRoute><BuyerHomePage /></ProtectedRoute>} />
+            ? 
+            <>
+              <Route path="/home" element={<ProtectedRoute><SellerHomePage /></ProtectedRoute>} />
+              <Route path="/addproducts" element={<ProtectedRoute><AddProductsPage /></ProtectedRoute>} />
+              <Route path="/confirmproducts" element={<ProtectedRoute><ConfirmProductsPage /></ProtectedRoute>} />
+            </>
+            : 
+            <>
+              <Route path="/home" element={<ProtectedRoute><BuyerHomePage /></ProtectedRoute>} />
+            </>
           }
           
         </Routes>

@@ -4,6 +4,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { styled } from '@mui/system';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useStore from '../stores/useStore';
+import { reuleaux} from 'ldrs';
+import type {} from 'ldrs';
+reuleaux.register();
 
 const MainContainer = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -23,7 +26,7 @@ const Header = styled(AppBar)({
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
-  const { drawerOpen, setDrawerOpen, isSeller, setIsSeller, } = useStore();
+  const { drawerOpen, setDrawerOpen, isSeller, setIsSeller, loadingMessage, loading, errorMessage} = useStore();
   const location = useLocation();
 
   // Define subtitles for each route
@@ -90,7 +93,19 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <div className='app-background'>
       <MainContainer>
         <div className='landing-page-container'>
-        {children}
+          
+        {children} {/*Here is pasted the page user is currently on*/}
+        
+        {(loading && 
+          <div className='loading-container' style={{marginTop: '20px'}}>
+          <Typography variant='body1'>{loadingMessage}</Typography>
+          <l-reuleaux size={60} color={'#2196f3'} speed={3}></l-reuleaux>
+        </div>
+        )}
+        {(errorMessage) &&
+          <Typography variant='body1' sx={{color: 'red', marginTop: '20px'}}>{errorMessage}</Typography>
+        }
+        
         </div>
       </MainContainer>
       </div>
