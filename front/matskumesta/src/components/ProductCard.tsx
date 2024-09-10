@@ -6,7 +6,8 @@ interface ProductCardProps {
   title: string;
   image: string;
   color: string;
-  onClick: (title: string) => void;
+  id: number | string;
+  onClick: (id: string | number) => void;
 }
 
 const StyledCard = styled(Card)<{ color: string }>(({ color }) => ({
@@ -19,9 +20,9 @@ const StyledCard = styled(Card)<{ color: string }>(({ color }) => ({
   },
 }));
 
-const ProductCard: React.FC<ProductCardProps> = ({ title, image, color, onClick }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ title, image, color, id, onClick }) => {
   return (
-    <StyledCard color={color} onClick={() => onClick(title)}>
+    <StyledCard color={color} onClick={() => onClick(id)}>
       <CardMedia component="img" height="140" image={image} alt={title} />
       <CardContent>
         {(color === 'green')

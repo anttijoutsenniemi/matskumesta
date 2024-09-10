@@ -2,16 +2,23 @@ import React from 'react';
 import { Box } from '@mui/material';
 import ProductCard from './ProductCard';
 
-interface Product {
+export interface Product {
   id: number;
   title: string;
+  description: string;
   image: string;
   color: string;
+  amount?: string;
+  weight?: string;
+  quality?: string;
+  location?: string;
+  packaging?: string;
+  availability?: string;
 }
 
 interface ProductGridProps {
   products: Product[];
-  onProductClick: (title: string) => void;
+  onProductClick: (id: string | number) => void;
 }
 
 const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) => {
@@ -34,6 +41,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) =
           mb={2} // Margin-bottom for rows
         >
           <ProductCard
+            id={product.id}
             title={product.title}
             image={product.image}
             color={product.color}
