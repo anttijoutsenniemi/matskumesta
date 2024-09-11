@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useAuth } from "../context/authContext";
+const { logout } = useAuth();
 
 export const fillProductDataWithImg = async (img64 : string, token?: string) => {
     try {
@@ -19,7 +21,15 @@ export const fillProductDataWithImg = async (img64 : string, token?: string) => 
       );
       return response.data;
     } catch (error) {
-      console.error('There was an error!', error);
+        // Check if the error is an AxiosError and if the response status is 403
+        if (axios.isAxiosError(error) && error.response?.status === 403) {
+          console.error('Access forbidden: You do not have permission to access this resource.', error);
+          logout();
+          // return { message: 'Access forbidden: You do not have permission to access this resource.' };
+        } else {
+          // Handle other errors
+          console.error('There was an error!', error);
+        }
     }
 };
 
@@ -42,6 +52,14 @@ export const fillManyProductDataWithImg = async (img64 : string, token?: string)
       );
       return response.data;
     } catch (error) {
-      console.error('There was an error!', error);
+        // Check if the error is an AxiosError and if the response status is 403
+      if (axios.isAxiosError(error) && error.response?.status === 403) {
+        console.error('Access forbidden: You do not have permission to access this resource.', error);
+        logout();
+        // return { message: 'Access forbidden: You do not have permission to access this resource.' };
+      } else {
+        // Handle other errors
+        console.error('There was an error!', error);
+      }
     }
 };
