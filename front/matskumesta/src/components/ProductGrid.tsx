@@ -8,6 +8,7 @@ export interface Product {
   description: string;
   image: string;
   color: string;
+  price?: string;
   amount?: string;
   weight?: string;
   quality?: string;

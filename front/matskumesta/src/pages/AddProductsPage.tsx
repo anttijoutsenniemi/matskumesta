@@ -19,11 +19,11 @@ const convertToBase64 = (file: File): Promise<string | ArrayBuffer | null> => {
 
 const AddProductsPage: React.FC = () => {
   const navigate = useNavigate();
-  const { username, setLoadingMessage, setLoading, setErrorMessage, setFilledProduct, setManyFilledProducts } = useStore();
+  const { username, setLoadingMessage, setLoading, setErrorMessage, setFilledProduct, setManyFilledProducts, setSellerProductImg64 } = useStore();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [materialOption, setMaterialOption] = useState<'one' | 'multiple' | null>('one');
 
-  const {token} = useAuth();
+  const { token, logout } = useAuth();
 
   // Function to navigate back to the seller page
   const backToSellerPage = () => {
@@ -47,12 +47,25 @@ const AddProductsPage: React.FC = () => {
       if(selectedImage && token){
         setLoadingMessage('Hetkinen... tulkitsen kuvaasi ja täytän tuotetietoja');
         setLoading(true);
+        setSellerProductImg64(selectedImage);
         let aiJson;
         if(materialOption === 'one'){
-          aiJson = await fillProductDataWithImg(selectedImage, token);
+          aiJson = await fillProductDataWithImg(selectedImage, logout, token);
           if(aiJson){
             setLoading(false);
-            setFilledProduct(JSON.parse(aiJson));
+            setErrorMessage('');
+            if(typeof aiJson === 'string'){ //parse if string
+              aiJson = JSON.parse(aiJson);
+            }
+            aiJson['id'] = 0;
+            aiJson['image'] = selectedImage; 
+            aiJson['color'] = 'green'; 
+            aiJson['location'] = ''; 
+            aiJson['packaging'] = ''; 
+            aiJson['availability'] = '';
+
+            let arr : any[] = [aiJson];
+            setManyFilledProducts(arr);
             navigate('/confirmproducts');
           }
           else{
@@ -61,9 +74,21 @@ const AddProductsPage: React.FC = () => {
 
         }
         else{
-          aiJson = await fillManyProductDataWithImg(selectedImage, token);
+          aiJson = await fillManyProductDataWithImg(selectedImage, logout, token);
           if(aiJson){
             setLoading(false);
+            setErrorMessage('');
+            if(typeof aiJson === 'string'){ //parse if string
+              aiJson = JSON.parse(aiJson);
+            }
+            for(let i = 0; i < aiJson.length; i++){
+              aiJson[i]['id'] = i;
+              aiJson[i]['image'] = selectedImage; 
+              aiJson[i]['color'] = 'green'; 
+              aiJson[i]['location'] = ''; 
+              aiJson[i]['packaging'] = ''; 
+              aiJson[i]['availability'] = '';
+            }
             setManyFilledProducts(aiJson);
             navigate('/confirmproducts');
           }

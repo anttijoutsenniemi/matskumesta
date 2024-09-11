@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fillProductDataWithImg = async (img64 : string, logout : any, token?: string) => {
+export const fillProductDataWithImg = async (img64 : string, logout: any, token?: string) => {
     try {
         //const response = await axios.post('/airoute/fillproductdatawithimg', 
       const response = await axios.post(
@@ -31,7 +31,7 @@ export const fillProductDataWithImg = async (img64 : string, logout : any, token
     }
 };
 
-export const fillManyProductDataWithImg = async (img64 : string, logout: any, token?: string) => {
+export const fillManyProductDataWithImg = async (img64 : string, logout : any, token?: string) => {
     try {
         //const response = await axios.post('/airoute/fillmanyproductdatawithimg',  
       const response = await axios.post(

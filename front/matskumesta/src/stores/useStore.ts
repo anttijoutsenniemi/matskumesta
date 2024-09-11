@@ -24,8 +24,9 @@ interface CounterState {
   loadingMessage: string,
   loading: boolean,
   errorMessage: string,
-  filledProduct: FilledProduct | null,
-  manyFilledProducts: FilledProduct[] | null,
+  filledProduct: any,
+  manyFilledProducts: any,
+  sellerProductImg64: string,
   // count: number
   // isLoading: boolean
   // tasks: Task[]
@@ -42,6 +43,7 @@ interface CounterState {
   setErrorMessage: (errorMsg: string) => void,
   setFilledProduct: (filledProd: FilledProduct) => void,
   setManyFilledProducts: (manyFilledProd: FilledProduct[]) => void
+  setSellerProductImg64: (sellerImg64: string) => void,
   // increment: () => void
   // decrement: () => void
   // addTask: (task: Task) => void
@@ -57,12 +59,26 @@ const useStore = create<CounterState>((set) => ({
   username: '',
   isSeller: false,
   modalOpen: false,
-  selectedProduct: null,
+  selectedProduct: {
+    id: 0,
+    title: '',
+    description: '',
+    image: '',
+    color: '',
+    price: '',
+    amount: '',
+    weight: '',
+    quality: '',
+    location: '',
+    packaging: '',
+    availability: '',
+  },
   loadingMessage: 'Odota hetki...',
   loading: false,
   errorMessage: '',
   filledProduct: null,
   manyFilledProducts: null,
+  sellerProductImg64: '',
   // count: 0,
   // tasks: [],
   // isLoading: false,
@@ -79,6 +95,7 @@ const useStore = create<CounterState>((set) => ({
   setErrorMessage: (errorMsg) => set(() => ({ errorMessage: errorMsg})),
   setFilledProduct: (filledProd) => set(() => ({ filledProduct: filledProd })),
   setManyFilledProducts: (manyFilledProd) => set(() =>({ manyFilledProducts: manyFilledProd })),
+  setSellerProductImg64: (sellerImg64) => set(() => ({ sellerProductImg64: sellerImg64 }))
   
   // addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
 
