@@ -11,7 +11,8 @@ interface ModalProps {
 
 const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
   const [editableProduct, setEditableProduct] = useState<Product>(product);
-  const { selectedProduct } = useStore();
+  const { selectedProduct, manyFilledProducts, setManyFilledProducts } = useStore();
+
   useEffect(() => {
     setEditableProduct(selectedProduct);
   }, [selectedProduct]);
@@ -22,8 +23,6 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
     onClose();
   }
 
-
-
   const handleChange = (field: keyof Product, value: string) => {
     setEditableProduct((prev) => ({
       ...prev,
@@ -32,7 +31,10 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
   };
 
   const confirmProduct = () => {
-
+    const updatedArr = manyFilledProducts.map((product : Product) =>
+      product.id === editableProduct.id ? editableProduct : product
+    );
+    setManyFilledProducts(updatedArr);
   }
 
   return (

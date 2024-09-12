@@ -59,7 +59,7 @@ const AddProductsPage: React.FC = () => {
             }
             aiJson['id'] = 0;
             aiJson['image'] = selectedImage; 
-            aiJson['color'] = 'green'; 
+            aiJson['color'] = 'yellow'; 
             aiJson['location'] = ''; 
             aiJson['packaging'] = ''; 
             aiJson['availability'] = '';
@@ -84,7 +84,7 @@ const AddProductsPage: React.FC = () => {
             for(let i = 0; i < aiJson.length; i++){
               aiJson[i]['id'] = i;
               aiJson[i]['image'] = selectedImage; 
-              aiJson[i]['color'] = 'green'; 
+              aiJson[i]['color'] = 'yellow'; 
               aiJson[i]['location'] = ''; 
               aiJson[i]['packaging'] = ''; 
               aiJson[i]['availability'] = '';

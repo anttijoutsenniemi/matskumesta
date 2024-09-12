@@ -32,6 +32,10 @@ const ConfirmProductsPage: React.FC = () => {
     openModal();
   };
 
+  const confirmProducts = () => {
+
+  }
+
   return  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             {/* Header Container */}
             <div
@@ -54,6 +58,9 @@ const ConfirmProductsPage: React.FC = () => {
             <Typography variant='body1' sx={{marginBottom: '10px', marginTop: '10px'}}>Klikkaa tuotekortteja muokkaaksesi</Typography>
               <ProductGrid products={manyFilledProducts} onProductClick={handleProductClick}/>
               <EditableModal product={selectedProduct} isOpen={modalOpen} onClose={closeModal}/>
+              <Button variant="contained" color="primary" fullWidth onClick={confirmProducts}>
+                Vahvista & lisää tuotteet valikoimaasi
+              </Button>
         </div>
 };
 

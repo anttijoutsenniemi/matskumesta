@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { Product } from '../components/ProductGrid'
 
 interface Task {
     id: number
@@ -41,8 +42,8 @@ interface CounterState {
   setLoadingMessage: (loadingMsg : string) => void,
   setLoading: (loadingStatus: boolean) => void,
   setErrorMessage: (errorMsg: string) => void,
-  setFilledProduct: (filledProd: FilledProduct) => void,
-  setManyFilledProducts: (manyFilledProd: FilledProduct[]) => void
+  setFilledProduct: (filledProd: any) => void,
+  setManyFilledProducts: (manyFilledProd: any) => void
   setSellerProductImg64: (sellerImg64: string) => void,
   // increment: () => void
   // decrement: () => void
