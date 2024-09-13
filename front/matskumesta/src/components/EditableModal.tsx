@@ -35,6 +35,7 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
       product.id === editableProduct.id ? editableProduct : product
     );
     setManyFilledProducts(updatedArr);
+    closeModal();
   }
 
   return (

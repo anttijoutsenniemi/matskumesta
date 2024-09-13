@@ -131,6 +131,8 @@ const AddProductsPage: React.FC = () => {
         Lisää matskuja
       </Typography>
 
+      <Typography variant='body1' sx={{marginTop: '20px', marginBottom: '20px'}}>Kuvan lähetettyäsi tekoäly pyrkii tunnistamaan siitä tuotetiedot ja täyttämään tuotekortteihin mahdollisimman paljon tietoa sinulle valmiiksi.</Typography>
+
       {/* Image Selector */}
       <input
         accept="image/*"

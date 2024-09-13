@@ -3,6 +3,8 @@ import './../styles/modal.css';
 import { Product } from './ProductGrid';
 import useStore from '../stores/useStore';
 import { Typography } from '@mui/material';
+import { deleteProduct } from './ApiFetches';
+import { useAuth } from '../context/authContext';
 
 interface ModalProps {
   isOpen: boolean;
@@ -12,7 +14,8 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
-  const { isSeller } = useStore();
+  const { username, isSeller, setLoading, setLoadingMessage, setErrorMessage, setSellerFinalProducts } = useStore();
+  const { logout, token } = useAuth();
 
   if (!isOpen) return null;
 
@@ -20,8 +23,22 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
     onClose();
   }
 
-  const deleteProduct = () => {
-
+  const deleteProductAndReturnNew = async () => {
+    setLoading(true);
+    setLoadingMessage('Deleting product...');
+    let token2 : string = token || 'juu';
+    let dbProcess = await deleteProduct(username, product, logout, token2);
+    if(dbProcess.ok){
+      setLoading(false);
+      setErrorMessage('');
+      let newProducts = dbProcess.document.products;
+      setSellerFinalProducts(newProducts);
+    }
+    else{
+      setLoading(false);
+      setErrorMessage('Error occured deleting product, check your connection and try again later.')
+    }
+    closeModal();
   }
 
   const reserveProduct = () => {
@@ -43,37 +60,37 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
 
           <div className="modal-field">
             <Typography variant="subtitle1">Määrä</Typography>
-            <Typography>{product.amount}</Typography>
+            <Typography>{product.amount || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Paino</Typography>
-            <Typography>{product.weight}</Typography>
+            <Typography>{product.weight || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Laatu</Typography>
-            <Typography>{product.quality}</Typography>
+            <Typography>{product.quality || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Sijainti</Typography>
-            <Typography>{product.location}</Typography>
+            <Typography>{product.location || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Pakkaus</Typography>
-            <Typography>{product.packaging}</Typography>
+            <Typography>{product.packaging || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Jatkuva saatavuus</Typography>
-            <Typography>{product.availability}</Typography>
+            <Typography>{product.availability || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
         </div>
@@ -81,8 +98,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
         <footer className="modal-footer">
 
         {(isSeller)
-        ? <button className='modal-option-button' onClick={deleteProduct}>Poista tuote</button>
-        : <button className='modal-option-button' onClick={reserveProduct}>Varaa tuote</button>
+        ? <>
+            <button className='modal-option-button' onClick={deleteProductAndReturnNew}>Poista tuote</button>
+            <button className='modal-option-button' onClick={closeModal}>Sulje ikkuna</button>
+          </>
+        : <>
+            <button className='modal-option-button' onClick={reserveProduct}>Varaa tuote</button>
+            <button className='modal-option-button' onClick={closeModal}>Sulje ikkuna</button>
+          </>
         }
         
         </footer>

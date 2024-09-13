@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useStore from '../stores/useStore';
 import { Button, Typography } from '@mui/material';
 import Modal from '../components/Modal';
 import ProductGrid, { Product } from '../components/ProductGrid';
 import naama from './../assets/naama.png';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
+import { fetchSellerProducts } from '../components/ApiFetches';
 
 const HomePage: React.FC = () => {
-  const { username, modalOpen, setModalOpen, setSelectedProduct, selectedProduct } = useStore();
+  const { username, modalOpen, setModalOpen, setSelectedProduct, selectedProduct, sellerFinalProducts, setSellerFinalProducts } = useStore();
   const navigate = useNavigate();
+  const { logout, token } = useAuth();
+
+  useEffect(() => { //we fetch and fill products if found on app start
+    const fetchData = async () => {
+      if (!sellerFinalProducts) {
+        try {
+          let token2 : string = token || 'juu';
+          let newProducts = await fetchSellerProducts(username, logout, token2);
+          if(newProducts){ //should return null if user has no products
+            setSellerFinalProducts(newProducts);
+          }
+          else{
+            setSellerFinalProducts(null);
+          }
+        } catch (error) {
+          console.error('Error fetching seller products:', error);
+        }
+      }
+    };
+    fetchData();
+  }, []);
 
   const openModal = () => {
     setModalOpen(true);
@@ -56,27 +79,47 @@ const HomePage: React.FC = () => {
       availability: 'Limited Availability',
     },
   ];
+
   const handleProductClick = (id: string | number) => {
-    let newProduct : Product = products[0];
-    for(let i = 0; i < products.length; i++){
-      if(products[i].id === id){
-        newProduct = products[i];
-        break;
+    // let newProduct : Product = products[0];
+    // for(let i = 0; i < products.length; i++){
+    //   if(products[i].id === id){
+    //     newProduct = products[i];
+    //     break;
+    //   }
+    // }
+    if(sellerFinalProducts){
+      let newProduct : Product = sellerFinalProducts[0];
+      for(let i = 0; i < sellerFinalProducts.length; i++){
+        if(sellerFinalProducts[i].id === id){
+          newProduct = sellerFinalProducts[i];
+          break;
+        }
       }
+      setSelectedProduct(newProduct);
+      openModal();
     }
-    setSelectedProduct(newProduct);
-    openModal();
   };
+
   const addProducts = () => {
     navigate('/addproducts');
   }
 
   return <div>
           <Typography variant='h4'>Myyjän: {username} mesta</Typography>
-          <Typography variant='h5' sx={{marginTop: '10px', marginBottom: '10px'}}>Lisätyt matskuni</Typography>
-            <div className='matskut-container'>
-              <ProductGrid products={products} onProductClick={handleProductClick}/>
-              <Modal title='Matskun tiedot' product={selectedProduct} isOpen={modalOpen} onClose={closeModal}/>
+          <Typography variant='h5' sx={{marginTop: '20px', marginBottom: '20px'}}>Lisätyt matskuni</Typography>
+            <div className='matskut-container' style={{marginTop: '10px', marginBottom: '10px'}}>
+              {
+                (sellerFinalProducts)
+                ? <>
+                    <ProductGrid products={sellerFinalProducts} onProductClick={handleProductClick}/>
+                    <Modal title='Matskun tiedot' product={selectedProduct} isOpen={modalOpen} onClose={closeModal}/>
+                  </>
+                : <>
+                    <Typography variant='subtitle1' sx={{marginBottom: '10px'}}>Et ole vielä lisännyt matskuja myyntiin, alla olevasta napista pääset helposti lisäämään tuotteita tekoälyn avulla!</Typography>
+                  </>
+              }
+              
             </div>
           <Button variant='contained' color='primary' onClick={addProducts}>Lisää matskuja</Button>
          </div>;

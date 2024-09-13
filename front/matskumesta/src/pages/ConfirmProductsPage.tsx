@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import useStore from '../stores/useStore';
 import ProductGrid, { Product } from '../components/ProductGrid';
 import EditableModal from '../components/EditableModal';
-
 import { Button, Typography, IconButton } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { addProducts } from '../components/ApiFetches';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useAuth } from '../context/authContext';
 
 const ConfirmProductsPage: React.FC = () => {
-  const { username, modalOpen, setModalOpen, setSelectedProduct, selectedProduct, manyFilledProducts, setManyFilledProducts } = useStore();
+  const { username, modalOpen, setModalOpen, setSelectedProduct, selectedProduct, manyFilledProducts, setManyFilledProducts, setLoading, setLoadingMessage, setErrorMessage, setSellerFinalProducts } = useStore();
   const navigate = useNavigate();
+  const { logout, token } = useAuth();
 
   const openModal = () => {
     setModalOpen(true);
@@ -32,8 +34,23 @@ const ConfirmProductsPage: React.FC = () => {
     openModal();
   };
 
-  const confirmProducts = () => {
-
+  const confirmProducts = async () => {
+    setLoading(true);
+    setLoadingMessage('Lisätään tuotteita...');
+    let token2 : string = token || 'juu';
+    let dbProcess = await addProducts(username, manyFilledProducts, logout, token2);
+    console.log(dbProcess);
+    if(dbProcess.ok){
+      setLoading(false);
+      setErrorMessage('');
+      let newProducts = dbProcess.document.products;
+      setSellerFinalProducts(newProducts);
+      navigate('/home');
+    }
+    else{
+      setLoading(false);
+      setErrorMessage('Error occured adding products, check your connection and try again later');
+    }
   }
 
   return  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
@@ -58,7 +75,7 @@ const ConfirmProductsPage: React.FC = () => {
             <Typography variant='body1' sx={{marginBottom: '10px', marginTop: '10px'}}>Klikkaa tuotekortteja muokkaaksesi</Typography>
               <ProductGrid products={manyFilledProducts} onProductClick={handleProductClick}/>
               <EditableModal product={selectedProduct} isOpen={modalOpen} onClose={closeModal}/>
-              <Button variant="contained" color="primary" fullWidth onClick={confirmProducts}>
+              <Button variant="contained" sx={{marginBottom: '10px', marginTop: '10px'}} color="primary" onClick={confirmProducts}>
                 Vahvista & lisää tuotteet valikoimaasi
               </Button>
         </div>

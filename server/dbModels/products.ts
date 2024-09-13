@@ -90,11 +90,16 @@ const productsModel = () => {
               { $set: { products: updatedProducts } }
             );
       
-            return { message: 'Document updated successfully' };
+            //fetch the updated document and return it
+            const updatedDocument = await productsCollection.findOne({ username });
+            return { ok: 'Document updated successfully', document: updatedDocument };
           } else {
             // Insert new document if none exists
-            const result = await productsCollection.insertOne(productsData);
-            return { message: 'Document inserted successfully' };
+            await productsCollection.insertOne(productsData);
+
+            //fetch the updated document and return it
+            const updatedDocument = await productsCollection.findOne({ username });
+            return { ok: 'Document inserted successfully', document: updatedDocument };
           }
         } catch (error) {
           console.error('Connection to test db failed with status code 102', error);
@@ -109,7 +114,7 @@ const productsModel = () => {
         const existingDocument = await productsCollection.findOne({ username });
     
         if (!existingDocument) {
-            return { message: 'Document not found for the given username' };
+            return { error: 'Document not found for the given username' };
         }
     
         // Filter out the matching product from the products array
@@ -137,7 +142,9 @@ const productsModel = () => {
             { $set: { products: updatedProducts } }
         );
     
-        return { message: 'Product deleted successfully' };
+        //fetch the updated document and return it
+        const updatedDocument = await productsCollection.findOne({ username });
+        return { ok: 'Product deleted successfully', document: updatedDocument };
         } catch (error) {
         console.error('Failed to delete product with status code 102', error);
         throw error;

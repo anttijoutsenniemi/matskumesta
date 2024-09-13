@@ -69,7 +69,7 @@ const port = process.env.PORT || 8000;
 app.use(bodyParser.json()); //receive req.body
 
 //some routes double authenticated
-app.use("/apiroute", authenticate, authenticateToken, apiRoute);
+app.use("/apiroute", /*authenticate,*/ authenticateToken, apiRoute);
 app.use("/airoute", /*authenticate,*/ authenticateToken, aiRoute);
 app.use("/auth", authenticate, authRoute);
 

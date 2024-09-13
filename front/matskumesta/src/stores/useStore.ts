@@ -28,6 +28,7 @@ interface CounterState {
   filledProduct: any,
   manyFilledProducts: any,
   sellerProductImg64: string,
+  sellerFinalProducts: Product[] | null,
   // count: number
   // isLoading: boolean
   // tasks: Task[]
@@ -45,6 +46,7 @@ interface CounterState {
   setFilledProduct: (filledProd: any) => void,
   setManyFilledProducts: (manyFilledProd: any) => void
   setSellerProductImg64: (sellerImg64: string) => void,
+  setSellerFinalProducts: (sellerFinalProds: Product[] | null) => void,
   // increment: () => void
   // decrement: () => void
   // addTask: (task: Task) => void
@@ -80,6 +82,7 @@ const useStore = create<CounterState>((set) => ({
   filledProduct: null,
   manyFilledProducts: null,
   sellerProductImg64: '',
+  sellerFinalProducts: null,
   // count: 0,
   // tasks: [],
   // isLoading: false,
@@ -96,7 +99,8 @@ const useStore = create<CounterState>((set) => ({
   setErrorMessage: (errorMsg) => set(() => ({ errorMessage: errorMsg})),
   setFilledProduct: (filledProd) => set(() => ({ filledProduct: filledProd })),
   setManyFilledProducts: (manyFilledProd) => set(() =>({ manyFilledProducts: manyFilledProd })),
-  setSellerProductImg64: (sellerImg64) => set(() => ({ sellerProductImg64: sellerImg64 }))
+  setSellerProductImg64: (sellerImg64) => set(() => ({ sellerProductImg64: sellerImg64 })),
+  setSellerFinalProducts: (sellerFinalProds) => set(() => ({ sellerFinalProducts: sellerFinalProds })),
   
   // addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
 
