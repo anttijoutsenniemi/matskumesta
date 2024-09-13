@@ -60,37 +60,37 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
 
           <div className="modal-field">
             <Typography variant="subtitle1">Määrä</Typography>
-            <Typography>{product.amount || 'Ei määritelty'}</Typography>
+            <Typography variant='body1'>{product.amount || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Paino</Typography>
-            <Typography>{product.weight || 'Ei määritelty'}</Typography>
+            <Typography variant='body1'>{product.weight || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Laatu</Typography>
-            <Typography>{product.quality || 'Ei määritelty'}</Typography>
+            <Typography variant='body1'>{product.quality || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Sijainti</Typography>
-            <Typography>{product.location || 'Ei määritelty'}</Typography>
+            <Typography variant='body1'>{product.location || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Pakkaus</Typography>
-            <Typography>{product.packaging || 'Ei määritelty'}</Typography>
+            <Typography variant='body1'>{product.packaging || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
             <Typography variant="subtitle1">Jatkuva saatavuus</Typography>
-            <Typography>{product.availability || 'Ei määritelty'}</Typography>
+            <Typography variant='body1'>{product.availability || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
         </div>

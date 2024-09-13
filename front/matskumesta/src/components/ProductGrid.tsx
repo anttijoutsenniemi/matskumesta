@@ -24,6 +24,7 @@ interface ProductGridProps {
 
 const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) => {
   // Sort products: green first, yellow second
+  
   const sortedProducts = products.sort((a, b) => (a.color === 'green' ? -1 : 1));
 
   return (
@@ -38,7 +39,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) =
       {sortedProducts.map((product) => (
         <Box
           key={product.id}
-          flexBasis={{ xs: 'calc(50% - 8px)', md: 'calc(33.33% - 16px)' }} // 2 in a row on mobile, 3 in a row on desktop
+          flexBasis={{ xs: 'calc(40% - 8px)', md: 'calc(33.33% - 16px)' }} // 2 in a row on mobile, 3 in a row on desktop
           mb={2} // Margin-bottom for rows
         >
           <ProductCard

@@ -20,7 +20,8 @@ const HomePage: React.FC = () => {
           let token2 : string = token || 'juu';
           let newProducts = await fetchSellerProducts(username, logout, token2);
           if(newProducts){ //should return null if user has no products
-            setSellerFinalProducts(newProducts);
+            let products = newProducts.products;
+            setSellerFinalProducts(products);
           }
           else{
             setSellerFinalProducts(null);
