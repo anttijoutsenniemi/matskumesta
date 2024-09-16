@@ -53,7 +53,6 @@ authRoute.post('/login', validateLogin, async (req: Request, res: Response) => {
     const token = jwt.sign({ email: user.email, username: user.username }, String(SECRET_KEY), {
       expiresIn: '6 days',
     });
-    console.log(token);
   
     res.json({ token: token, username : user.username });
   });

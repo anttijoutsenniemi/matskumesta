@@ -6,13 +6,13 @@ import products from './../json/manyProducts.json';
 export const fillDataForSingleProduct = async (picUrl : string) => {
     try {
     //this is for testing, comment this return statement to enable Ai
-    return dedent`{
-        "title": "Tammilautaa",
-        "description": "Käsittelemätöntä hiomatonta lautaa. Lautojen pituudet vaihtelevat noin metristä kolmeen metriin.",
-        "amount": "noin. 100 kpl.",
-        "weight": "noin. 500kg.",
-        "quality": "Hyvä, ei käytetty rakentamiseen."
-    }`
+    // return dedent`{
+    //     "title": "Tammilautaa",
+    //     "description": "Käsittelemätöntä hiomatonta lautaa. Lautojen pituudet vaihtelevat noin metristä kolmeen metriin.",
+    //     "amount": "noin. 100 kpl.",
+    //     "weight": "noin. 500kg.",
+    //     "quality": "Hyvä, ei käytetty rakentamiseen."
+    // }`
       
       const apiKey = process.env.OPENAI_API_KEY;
       const fillableJson = JSON.stringify(product);
@@ -28,6 +28,7 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
               {
                   type: "text",
                   text: dedent`Could you help me make a product listing of the material/product in this image?
+                        The product/material is to be sold on a used/excess material marketplace.
                         I will give you a JSON where you can fill all info of the product/material. The JSON comes prefilled
                         with data to give you an idea of how the data might look. Empty all prefilled values and create new ones in finnish. 
                         Fill this JSON and return it only: ${fillableJson}`
@@ -94,6 +95,7 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
               {
                   type: "text",
                   text: dedent`Could you help me make a product listing of the materials/products in this image?
+                        The product/material is to be sold on a used/excess material marketplace.
                         I will give you a JSON where you can fill all info of the products/materials. The JSON comes prefilled
                         with data to give you an idea of how the data might look. If you detect multiple products/materials from the image,
                         you can add each of them as its own entry in the array. If you only detect one, return an array with just its info.

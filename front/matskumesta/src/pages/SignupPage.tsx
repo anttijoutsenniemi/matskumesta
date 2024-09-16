@@ -8,6 +8,7 @@ const SignUpPage: React.FC = () => {
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [checkPassword, setCheckPassword] = useState('');
   const navigate = useNavigate();
 
   // Define maximum length constants
@@ -47,6 +48,10 @@ const SignUpPage: React.FC = () => {
     }
     if (password.length > MAX_PASSWORD_LENGTH) {
       alert(`Salasana ei voi olla pidempi kuin ${MAX_PASSWORD_LENGTH} merkkiä`);
+      return;
+    }
+    if (password !== checkPassword) {
+      alert('Salasanojen on täsmättävä')
       return;
     }
     if (!passwordPattern.test(trimmedPassword)) {
@@ -114,6 +119,15 @@ const SignUpPage: React.FC = () => {
           margin="normal"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <TextField
+          label="Salasana uudestaan"
+          type="password"
+          fullWidth
+          margin="normal"
+          value={checkPassword}
+          onChange={(e) => setCheckPassword(e.target.value)}
           required
         />
         <TextField

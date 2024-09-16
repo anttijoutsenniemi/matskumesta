@@ -66,7 +66,8 @@ const port = process.env.PORT || 8000;
 
 //setupCronJobs(); //start scheduled scraping and ai functions
 
-app.use(bodyParser.json()); //receive req.body
+// app.use(bodyParser.json()); //receive req.body
+app.use(express.json({limit: '50mb'}));
 
 //some routes double authenticated
 app.use("/apiroute", /*authenticate,*/ authenticateToken, apiRoute);

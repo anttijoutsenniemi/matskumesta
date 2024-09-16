@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { styled } from '@mui/system';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useStore from '../stores/useStore';
-import { reuleaux} from 'ldrs';
+import { reuleaux } from 'ldrs';
 import type {} from 'ldrs';
 reuleaux.register();
 

@@ -36,14 +36,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) =
         gap: 2, // Space between the cards
       }}
     >
-      {sortedProducts.map((product) => (
+      {sortedProducts.map((product, index) => (
         <Box
-          key={product.id}
+          key={index}
           flexBasis={{ xs: 'calc(40% - 8px)', md: 'calc(33.33% - 16px)' }} // 2 in a row on mobile, 3 in a row on desktop
           mb={2} // Margin-bottom for rows
         >
           <ProductCard
-            id={product.id}
+            id={index}
             title={product.title}
             image={product.image}
             color={product.color}

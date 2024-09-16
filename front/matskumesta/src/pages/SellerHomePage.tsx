@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import useStore from '../stores/useStore';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, useTheme } from '@mui/material';
 import Modal from '../components/Modal';
 import ProductGrid, { Product } from '../components/ProductGrid';
 import naama from './../assets/naama.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 import { fetchSellerProducts } from '../components/ApiFetches';
+import TwoColorBoxes from '../components/ColorBoxes';
 
 const HomePage: React.FC = () => {
   const { username, modalOpen, setModalOpen, setSelectedProduct, selectedProduct, sellerFinalProducts, setSellerFinalProducts } = useStore();
   const navigate = useNavigate();
   const { logout, token } = useAuth();
+  const theme = useTheme();
 
   useEffect(() => { //we fetch and fill products if found on app start
     const fetchData = async () => {
@@ -82,21 +84,11 @@ const HomePage: React.FC = () => {
   ];
 
   const handleProductClick = (id: string | number) => {
-    // let newProduct : Product = products[0];
-    // for(let i = 0; i < products.length; i++){
-    //   if(products[i].id === id){
-    //     newProduct = products[i];
-    //     break;
-    //   }
-    // }
+
     if(sellerFinalProducts){
-      let newProduct : Product = sellerFinalProducts[0];
-      for(let i = 0; i < sellerFinalProducts.length; i++){
-        if(sellerFinalProducts[i].id === id){
-          newProduct = sellerFinalProducts[i];
-          break;
-        }
-      }
+      let identifier : number = Number(id);
+      let newProduct : Product = sellerFinalProducts[identifier];
+
       setSelectedProduct(newProduct);
       openModal();
     }
@@ -121,6 +113,14 @@ const HomePage: React.FC = () => {
                   </>
               }
               
+            </div>
+            <div style={{marginTop: '20px', marginBottom: '20px'}}>
+              <TwoColorBoxes
+                box1Color={theme.palette.secondary.main}
+                box1Description='Tuotteesta on tehty varaus'
+                box2Color={theme.palette.tertiary.main}
+                box2Description='Varaamaton tuote'
+              />
             </div>
           <Button variant='contained' color='primary' onClick={addProducts}>Lisää matskuja</Button>
          </div>;
