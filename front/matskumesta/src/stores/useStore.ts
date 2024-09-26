@@ -15,7 +15,7 @@ interface FilledProduct {
 }
 
 // Define the state and actions
-interface CounterState {
+interface CentralState {
   //variables
   drawerOpen: boolean,
   username: string,
@@ -29,6 +29,7 @@ interface CounterState {
   manyFilledProducts: any,
   sellerProductImg64: string,
   sellerFinalProducts: Product[] | null,
+  buyerReservedProducts: Product[] | null,
   // count: number
   // isLoading: boolean
   // tasks: Task[]
@@ -47,6 +48,7 @@ interface CounterState {
   setManyFilledProducts: (manyFilledProd: any) => void
   setSellerProductImg64: (sellerImg64: string) => void,
   setSellerFinalProducts: (sellerFinalProds: Product[] | null) => void,
+  setBuyerReservedProducts: (buyerReservedProds: Product[] | null) => void
   // increment: () => void
   // decrement: () => void
   // addTask: (task: Task) => void
@@ -56,7 +58,7 @@ interface CounterState {
 }
 
 // Create the store
-const useStore = create<CounterState>((set) => ({
+const useStore = create<CentralState>((set) => ({
   //variables
   drawerOpen: false,
   username: '',
@@ -83,6 +85,7 @@ const useStore = create<CounterState>((set) => ({
   manyFilledProducts: null,
   sellerProductImg64: '',
   sellerFinalProducts: null,
+  buyerReservedProducts: null,
   // count: 0,
   // tasks: [],
   // isLoading: false,
@@ -101,6 +104,7 @@ const useStore = create<CounterState>((set) => ({
   setManyFilledProducts: (manyFilledProd) => set(() =>({ manyFilledProducts: manyFilledProd })),
   setSellerProductImg64: (sellerImg64) => set(() => ({ sellerProductImg64: sellerImg64 })),
   setSellerFinalProducts: (sellerFinalProds) => set(() => ({ sellerFinalProducts: sellerFinalProds })),
+  setBuyerReservedProducts: (buyerReservedProds) => set(() => ({ buyerReservedProducts: buyerReservedProds })),
   
   // addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
 
