@@ -1,6 +1,7 @@
 import axios from "axios";
 import dedent from "dedent";
 import product from './../json/product.json';
+import emptyProduct from './../json/emptyProduct.json';
 import products from './../json/manyProducts.json';
 
 export const fillDataForSingleProduct = async (picUrl : string) => {
@@ -15,7 +16,8 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
     // }`
       
       const apiKey = process.env.OPENAI_API_KEY;
-      const fillableJson = JSON.stringify(product);
+      // const fillableJson = JSON.stringify(product);
+      const fillableJson = JSON.stringify(emptyProduct);
       const result = await axios.post(
         'https://api.openai.com/v1/chat/completions',
         {
@@ -96,11 +98,11 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
                   type: "text",
                   text: dedent`Could you help me make a product listing of the materials/products in this image?
                         The product/material is to be sold on a used/excess material marketplace.
-                        I will give you a JSON where you can fill all info of the products/materials. The JSON comes prefilled
+                        I will give you an array of JSON obejcts where you can fill all info of the products/materials. The JSON comes prefilled
                         with data to give you an idea of how the data might look. If you detect multiple products/materials from the image,
                         you can add each of them as its own entry in the array. If you only detect one, return an array with just its info.
                         Empty all prefilled values and create new ones in finnish. 
-                        Fill this JSON and return it only: ${fillableJson}`
+                        Fill this array and return it only: ${fillableJson}`
               },
               {
                   type: "image_url",

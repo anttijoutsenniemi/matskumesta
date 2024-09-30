@@ -81,16 +81,31 @@ const AddProductsPage: React.FC = () => {
             if(typeof aiJson === 'string'){ //parse if string
               aiJson = JSON.parse(aiJson);
             }
-            for(let i = 0; i < aiJson.length; i++){
-              aiJson[i]['id'] = i;
-              aiJson[i]['image'] = selectedImage; 
-              aiJson[i]['color'] = 'yellow'; 
-              aiJson[i]['location'] = ''; 
-              aiJson[i]['packaging'] = ''; 
-              aiJson[i]['availability'] = '';
+            if(aiJson.title){ //this should trigger if there is only one product
+              aiJson['id'] = 0;
+              aiJson['image'] = selectedImage; 
+              aiJson['color'] = 'yellow'; 
+              aiJson['location'] = ''; 
+              aiJson['packaging'] = ''; 
+              aiJson['availability'] = '';
+  
+              let arr : any[] = [aiJson];
+              setManyFilledProducts(arr);
+              navigate('/confirmproducts');
             }
-            setManyFilledProducts(aiJson);
-            navigate('/confirmproducts');
+            else { //this should trigger if there are multiple products
+              for(let i = 0; i < aiJson.length; i++){
+                aiJson[i]['id'] = i;
+                aiJson[i]['image'] = selectedImage; 
+                aiJson[i]['color'] = 'yellow'; 
+                aiJson[i]['location'] = ''; 
+                aiJson[i]['packaging'] = ''; 
+                aiJson[i]['availability'] = '';
+              }
+              setManyFilledProducts(aiJson);
+              navigate('/confirmproducts');
+            }
+
           }
           else{
             throw new Error('Unable to fecth aidata');

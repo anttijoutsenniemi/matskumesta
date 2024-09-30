@@ -60,6 +60,7 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
           </div>
 
           {[
+            { label: 'Kuvaus', field: 'description' },
             { label: 'Määrä', field: 'amount' },
             { label: 'Hinta', field: 'price' },
             { label: 'Paino', field: 'weight' },
