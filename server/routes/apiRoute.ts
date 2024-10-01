@@ -1,7 +1,9 @@
 import express from 'express';
 import productsModel, { Product, ProductsData } from '../dbModels/products';
+import reserveListModel from '../dbModels/reserveList';
 
 const productsModule = productsModel();
+const reserveListModule = reserveListModel();
 
 const apiRoute : express.Router = express.Router();
 
@@ -58,6 +60,22 @@ apiRoute.post("/deleteProduct", async (req : express.Request, res : express.Resp
             let username : string = req.body.username;
             let productToDelete : Product = req.body.productToDelete;
             let result = await productsModule.deleteProduct(username, productToDelete);
+            res.status(200).json(result);
+        }
+        else{
+            res.status(404).json({ "error" : `invalid input` });
+        }
+        
+    } catch (e : any) {
+        res.status(404).json({ "error" : `error fetching: ${e}` });
+    }
+});
+
+apiRoute.post("/fetchBuyerReservedProducts", async (req : express.Request, res : express.Response) : Promise<void> => { 
+    try {
+        if(req.body.username){
+            let username : string = req.body.username;
+            let result = await reserveListModule.fetchOneWithName(username);
             res.status(200).json(result);
         }
         else{

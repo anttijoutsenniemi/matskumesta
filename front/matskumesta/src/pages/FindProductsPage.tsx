@@ -3,6 +3,7 @@ import useStore from '../stores/useStore';
 import { Typography, IconButton } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
+import InputField from '../components/InputField';
 
 const AddProductsPage: React.FC = () => {
   const { username } = useStore();
@@ -10,6 +11,10 @@ const AddProductsPage: React.FC = () => {
 
   const backToBuyerPage = () => {
     navigate('/home');
+  }
+
+  const receiveInput = (input : string) => {
+    console.log(input);
   }
 
   return  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
@@ -34,6 +39,9 @@ const AddProductsPage: React.FC = () => {
             <Typography variant="h4" gutterBottom>
                 Etsi matskuja
             </Typography>
+
+            <InputField receiveInput={receiveInput}/>
+
         </div>;
 };
 

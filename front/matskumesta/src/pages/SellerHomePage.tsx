@@ -114,7 +114,7 @@ const HomePage: React.FC = () => {
               }
               
             </div>
-            <div style={{marginTop: '20px', marginBottom: '20px'}}>
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '20px'}}>
               <TwoColorBoxes
                 box1Color={theme.palette.secondary.main}
                 box1Description='Tuotteesta on tehty varaus'
