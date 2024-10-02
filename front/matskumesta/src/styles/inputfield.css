@@ -14,7 +14,7 @@
   }
   
   .rounded-input {
-    padding: 10px;
+    padding: 20px;
     border-radius: 15px;
     border: 1px solid #ccc;
     flex: 1; /* Take up the remaining space */
@@ -28,11 +28,12 @@
   }
   
   .send-button {
-    padding: 10px 20px;
+    font-size: medium;
+    padding: 20px 20px;
     border: none;
     border-radius: 15px;
     /* background-color: #007bff; */
-    background-color: rgb(5, 88, 84);
+    background-color: #041B15;
     color: white;
     cursor: pointer;
     flex-shrink: 0; /* Prevent the button from shrinking */
@@ -70,8 +71,9 @@
   }
   
   .compo-option-button {
+    font-size: medium;
     margin: 0 5px;
-    padding: 5px 10px;
+    padding: 10px 10px;
     border-radius: 10px;
     border: 1px solid #ccc;
     background-color: #f0f0f0;

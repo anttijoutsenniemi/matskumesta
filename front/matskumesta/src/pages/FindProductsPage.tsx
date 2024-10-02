@@ -39,9 +39,12 @@ const AddProductsPage: React.FC = () => {
             <Typography variant="h4" gutterBottom>
                 Etsi matskuja
             </Typography>
-
-            <InputField receiveInput={receiveInput}/>
-
+            <Typography variant="h6" gutterBottom sx={{marginBottom: '20px'}}>
+                Alla olevaan tekstilaatikkoon voit kuvailla omin sanoin mitä olet etsimässä. Voit kirjoittaa itse, valita ehdotuksista tai molemmat!
+            </Typography>
+            <div className='input-box'>
+              <InputField receiveInput={receiveInput}/>
+            </div>
         </div>;
 };
 

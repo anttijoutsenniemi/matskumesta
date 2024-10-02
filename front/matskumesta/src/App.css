@@ -39,3 +39,14 @@
 .loading-container {
   margin-top: '10px';
 }
+
+.input-box {
+  width: 60%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .input-box {
+    width: 100%;
+  }
+}
