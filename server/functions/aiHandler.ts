@@ -32,7 +32,9 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
                   text: dedent`Could you help me make a product listing of the material/product in this image?
                         The product/material is to be sold on a used/excess material marketplace.
                         I will give you a JSON where you can fill all info of the product/material. The JSON comes prefilled
-                        with data to give you an idea of how the data might look. Empty all prefilled values and create new ones in finnish. 
+                        with data to give you an idea of how the data might look. In categories -key, choose which categories apply to 
+                        the product and leave those as the value.
+                        Empty all other prefilled values and create new ones in finnish. 
                         Fill this JSON and return it only: ${fillableJson}`
               },
               {

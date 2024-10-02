@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import useStore from '../stores/useStore';
 import { fillManyProductDataWithImg, fillProductDataWithImg } from '../components/AiHandler';
 import { useAuth } from '../context/authContext';
-import { error } from 'console';
 
 // Helper function to convert image to base64 format
 const convertToBase64 = (file: File): Promise<string | ArrayBuffer | null> => {
@@ -30,12 +29,62 @@ const AddProductsPage: React.FC = () => {
     navigate('/home');
   };
 
+  const resizeImage = (file: File, maxWidth: number, maxHeight: number): Promise<string | ArrayBuffer | null> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+  
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+  
+          // Calculate the new dimensions
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height *= maxWidth / width));
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width *= maxHeight / height));
+              height = maxHeight;
+            }
+          }
+  
+          // Set the canvas dimensions to the new size
+          canvas.width = width;
+          canvas.height = height;
+  
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            // Draw the image at the reduced size
+            ctx.drawImage(img, 0, 0, width, height);
+  
+            // Convert canvas back to base64
+            const resizedBase64 = canvas.toDataURL('image/jpeg', 0.7); // 0.7 for image quality (range 0-1)
+            resolve(resizedBase64);
+          }
+        };
+  
+        img.onerror = (error) => reject(error);
+      };
+  
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   // Function to handle image selection
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      const base64Image = await convertToBase64(file);
-      setSelectedImage(base64Image as string);
+      const resizedImage = await resizeImage(file, 800, 600); // Resize to 800x600 or any other desired size
+      setSelectedImage(resizedImage as string);
+      // const base64Image = await convertToBase64(file);
+      // setSelectedImage(base64Image as string);
     }
   };
 
@@ -65,6 +114,7 @@ const AddProductsPage: React.FC = () => {
             aiJson['availability'] = '';
 
             let arr : any[] = [aiJson];
+            console.log(aiJson);
             setManyFilledProducts(arr);
             navigate('/confirmproducts');
           }

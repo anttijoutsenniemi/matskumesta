@@ -43,13 +43,13 @@ export const validateSignUp = [
 ];
 
 export const validateLogin = [
-    // Check email format
-    body('email')
+    // Check username format
+    body('username')
       .trim()
-      .isEmail()
-      .withMessage('Sähköpostiosoite ei ole kelvollinen')
+      .matches(/^[a-zA-Z0-9_]+$/)
+      .withMessage('Käyttäjänimi voi sisältää vain kirjaimia, numeroita ja alaviivoja')
       .notEmpty()
-      .withMessage('Sähköposti on pakollinen'),
+      .withMessage('Käyttäjänimi on pakollinen'),
   
     // Check password
     body('password')

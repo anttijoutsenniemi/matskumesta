@@ -5,30 +5,30 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signupSelf, loginSelf } from '../components/ApiFetches';
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const MAX_EMAIL_LENGTH = 80;
+  const MAX_USERNAME_LENGTH = 30;
   const MAX_PASSWORD_LENGTH = 50;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const trimmedPassword = password.trim();
-    const trimmedEmail = email.trim();
+    const trimmedUsername = username.trim();
 
     // Perform validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const usernamePattern = /^[a-zA-Z0-9_]+$/; // Alphanumeric usernames with underscores allowed
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/; // Minimum 8 characters, includes uppercase, lowercase, number, and special character
 
-    if (!emailPattern.test(trimmedEmail)) {
-      alert('Sähköpostiosoite ei ole kelvollinen');
+    if (!usernamePattern.test(trimmedUsername)) {
+      alert('Käyttäjänimi ei ole kelvollinen. Vain kirjaimet, numerot ja alaviivat ovat sallittuja.');
       return;
     }
-    if (trimmedEmail.length > MAX_EMAIL_LENGTH) {
-      alert(`Sähköposti ei voi olla pidempi kuin ${MAX_EMAIL_LENGTH} merkkiä`);
+    if (trimmedUsername.length > MAX_USERNAME_LENGTH) {
+      alert(`Käyttäjänimi ei voi olla pidempi kuin ${MAX_USERNAME_LENGTH} merkkiä`);
       return;
     }
     if (password.length > MAX_PASSWORD_LENGTH) {
@@ -41,16 +41,15 @@ const LoginPage: React.FC = () => {
     }
 
     try {
-      let reqBody : object = { email: trimmedEmail, password: trimmedPassword };
+      let reqBody: object = { username: trimmedUsername, password: trimmedPassword };
       const response = await loginSelf(reqBody);
 
       if (!response) {
         throw new Error('Failed to log in');
-      }
-      else if(response.errors){
+      } else if (response.errors) {
         throw new Error('Login failed, check your inputs and try again');
       }
-      
+
       login(response.token, response.username);
       navigate('/');
     } catch (error) {
@@ -75,12 +74,12 @@ const LoginPage: React.FC = () => {
       </Typography>
       <Box component="form" onSubmit={handleLogin} sx={{ width: '100%', maxWidth: 400 }}>
         <TextField
-          label="Sähköposti"
-          type="email"
+          label="Käyttäjänimi"
+          type="text"
           fullWidth
           margin="normal"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <TextField

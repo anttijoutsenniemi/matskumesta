@@ -27,9 +27,14 @@ const SignUpPage: React.FC = () => {
     const trimmedPassword = password.trim();
 
     // Perform validation
+    const usernamePattern = /^[a-zA-Z0-9_]+$/; // Alphanumeric usernames with underscores allowed
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/; // Minimum 8 characters, includes uppercase, lowercase, number, and special character
-
+    
+    if (!usernamePattern.test(trimmedUsername)) {
+      alert('Käyttäjänimi ei ole kelvollinen. Vain kirjaimet, numerot ja alaviivat ovat sallittuja.');
+      return;
+    }
     if (trimmedUsername.length > MAX_USERNAME_LENGTH) {
       alert(`Käyttäjänimi ei voi olla pidempi kuin ${MAX_USERNAME_LENGTH} merkkiä`);
       return;

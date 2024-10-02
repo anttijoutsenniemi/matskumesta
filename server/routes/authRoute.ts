@@ -39,9 +39,9 @@ authRoute.post("/signup", validateSignUp, async (req : express.Request, res : ex
 });
 
 authRoute.post('/login', validateLogin, async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    let user = await userModule.fetchOneWithEmail(email);
+    let user = await userModule.fetchOneWithName(username);
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).json({ message: 'Invalid credentials' });
