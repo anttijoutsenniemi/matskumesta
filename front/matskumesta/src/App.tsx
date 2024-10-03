@@ -12,6 +12,7 @@ import useStore from './stores/useStore';
 import AddProductsPage from './pages/AddProductsPage';
 import ConfirmProductsPage from './pages/ConfirmProductsPage';
 import FindProductsPage from './pages/FindProductsPage';
+import BuyerFoundProductsPage from './pages/BuyerFoundProductsPage';
 
 const App: React.FC = () => {
   const { isSeller, setIsSeller } = useStore();
@@ -37,6 +38,7 @@ const App: React.FC = () => {
             <>
               <Route path="/home" element={<ProtectedRoute><BuyerHomePage /></ProtectedRoute>} />
               <Route path="/findproducts" element={<ProtectedRoute><FindProductsPage /></ProtectedRoute>} />
+              <Route path="/buyerfoundproducts" element={<ProtectedRoute><BuyerFoundProductsPage/></ProtectedRoute>} />
             </>
           }
           

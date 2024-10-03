@@ -87,4 +87,20 @@ apiRoute.post("/fetchBuyerReservedProducts", async (req : express.Request, res :
     }
 });
 
+apiRoute.post("/fetchMatchingProdsByCategory", async (req : express.Request, res : express.Response) : Promise<void> => { 
+    try {
+        if(req.body.categories){
+            let categories : string[] = req.body.categories;
+            let result = await productsModule.fetchProductsByCategories(categories);
+            res.status(200).json(result);
+        }
+        else{
+            res.status(404).json({ "error" : `invalid input` });
+        }
+        
+    } catch (e : any) {
+        res.status(404).json({ "error" : `error fetching: ${e}` });
+    }
+});
+
 export default apiRoute;

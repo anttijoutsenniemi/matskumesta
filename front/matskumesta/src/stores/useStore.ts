@@ -14,6 +14,11 @@ interface FilledProduct {
   quality: string,
 }
 
+interface UserProductArray {
+  username: string,
+  products: Product[]
+}
+
 // Define the state and actions
 interface CentralState {
   //variables
@@ -30,6 +35,8 @@ interface CentralState {
   sellerProductImg64: string,
   sellerFinalProducts: Product[] | null,
   buyerReservedProducts: Product[] | null,
+  buyerFoundProducts: UserProductArray[] | null,
+  foundAiText: string,
   // count: number
   // isLoading: boolean
   // tasks: Task[]
@@ -48,7 +55,9 @@ interface CentralState {
   setManyFilledProducts: (manyFilledProd: any) => void
   setSellerProductImg64: (sellerImg64: string) => void,
   setSellerFinalProducts: (sellerFinalProds: Product[] | null) => void,
-  setBuyerReservedProducts: (buyerReservedProds: Product[] | null) => void
+  setBuyerReservedProducts: (buyerReservedProds: Product[] | null) => void,
+  setBuyerFoundProducts: (buyerFoundProds : UserProductArray[] | null) => void,
+  setFoundAiText: (aiText : string) => void,
   // increment: () => void
   // decrement: () => void
   // addTask: (task: Task) => void
@@ -86,6 +95,8 @@ const useStore = create<CentralState>((set) => ({
   sellerProductImg64: '',
   sellerFinalProducts: null,
   buyerReservedProducts: null,
+  buyerFoundProducts: null,
+  foundAiText: "",
   // count: 0,
   // tasks: [],
   // isLoading: false,
@@ -105,6 +116,8 @@ const useStore = create<CentralState>((set) => ({
   setSellerProductImg64: (sellerImg64) => set(() => ({ sellerProductImg64: sellerImg64 })),
   setSellerFinalProducts: (sellerFinalProds) => set(() => ({ sellerFinalProducts: sellerFinalProds })),
   setBuyerReservedProducts: (buyerReservedProds) => set(() => ({ buyerReservedProducts: buyerReservedProds })),
+  setBuyerFoundProducts: (buyerFoundProds) => set(() => ({ buyerFoundProducts: buyerFoundProds })),
+  setFoundAiText: (aiText) => set(() => ({ foundAiText: aiText })),  
   
   // addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
 

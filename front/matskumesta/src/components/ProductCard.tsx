@@ -10,8 +10,6 @@ interface ProductCardProps {
   onClick: (id: string | number) => void;
 }
 
-
-
 const ProductCard: React.FC<ProductCardProps> = ({ title, image, color, id, onClick }) => {
   const theme = useTheme();
 
