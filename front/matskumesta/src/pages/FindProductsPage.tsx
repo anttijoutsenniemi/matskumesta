@@ -7,7 +7,7 @@ import InputField from '../components/InputField';
 import categories from '../assets/textRecommendations.json';
 import { useAuth } from '../context/authContext';
 import { analyzeUserText } from '../components/AiHandler';
-import { fetchMatchingProdsByCategory } from '../components/ApiFetches';
+import { fetchMatchingProdsByCategory, fetchRandomProducts } from '../components/ApiFetches';
 
 const AddProductsPage: React.FC = () => {
   const { username, errorMessage, setErrorMessage, setLoading, setLoadingMessage, setFoundAiText, setBuyerFoundProducts } = useStore();
@@ -41,7 +41,10 @@ const AddProductsPage: React.FC = () => {
         if(aiJson.noCategoryMatches){
           setFoundAiText("Valikoimasta ei tällä kertaa löytynyt täysin tarpeisiisi sopivia matskuja, tässä kuitenkin muutamat satunnaiset matskut: ");
           //here do random products paste
+          let userProductArray = await fetchRandomProducts(logout, token2);
           setLoading(false);
+          setBuyerFoundProducts(userProductArray);
+          navigate('/buyerfoundproducts');
         }
         else{
           let categories : string[] = aiJson.categories;
@@ -49,7 +52,11 @@ const AddProductsPage: React.FC = () => {
           if(userProductArray.length === 0){
             setFoundAiText("Valikoimasta ei tällä kertaa löytynyt täysin tarpeisiisi sopivia matskuja, tässä kuitenkin muutamat satunnaiset matskut: ");
             //here do random products paste
+            let userProductArray = await fetchRandomProducts(logout, token2);
             setLoading(false);
+            setBuyerFoundProducts(userProductArray);
+            navigate('/buyerfoundproducts');
+            
           }
           else {
             setLoading(false);
@@ -68,7 +75,11 @@ const AddProductsPage: React.FC = () => {
       if(userProductArray.length === 0){
         setFoundAiText("Valikoimasta ei tällä kertaa löytynyt täysin tarpeisiisi sopivia matskuja, tässä kuitenkin muutamat satunnaiset matskut: ");
         //here do random products paste
+        let userProductArray = await fetchRandomProducts(logout, token2);
         setLoading(false);
+        setBuyerFoundProducts(userProductArray);
+        navigate('/buyerfoundproducts');
+        
       }
       else{
         setLoading(false);

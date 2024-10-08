@@ -103,4 +103,16 @@ apiRoute.post("/fetchMatchingProdsByCategory", async (req : express.Request, res
     }
 });
 
+apiRoute.post("/fetchRandomProducts", async (req : express.Request, res : express.Response) : Promise<void> => { 
+    try {
+
+        let result = await productsModule.fetchRandomDocuments();
+        res.status(200).json(result);
+        
+    } catch (e : any) {
+        res.status(404).json({ "error" : `error fetching: ${e}` });
+    }
+});
+
+
 export default apiRoute;

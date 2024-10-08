@@ -154,36 +154,25 @@ const productsModel = () => {
         }
     };
 
-    //fetch all users and their products that match the given category array
-    const fetchProductsByCategories2 = async (categories: string[]) => {
+    //fetch x random documents and return array
+    const fetchRandomDocuments = async () => {
         try {
             const result = await productsCollection.aggregate([
-                {
-                    $match: {
-                        'products.categories': { $in: categories }  // Match products with at least one category in the parameter array
-                    }
-                },
-                {
-                    $project: {
-                        _id: 0,  // Hide the MongoDB _id field
-                        username: 1,  // Include the username field
-                        products: {
-                            $filter: {
-                                input: "$products",  // Target the products array
-                                as: "product",
-                                cond: { $in: [categories, "$$product.categories"] }  // Filter products that have matching categories
-                            }
-                        }
+                { $sample: { size: 6 } },  // Fetch up to 6 random documents
+                { 
+                    $project: {  // Only return username and products fields
+                        _id: 0,  // Exclude the _id field
+                        username: 1,
+                        products: { $slice: ["$products", 3] }  // Limit products array to max 3 items
                     }
                 }
-            ]).toArray();
-    
+            ]).toArray();  // Convert the cursor to an array
             return result;
         } catch (error) {
-            console.error('Connection to db failed code 88:', error);
+            console.error('Connection to db failed code 88: ', error);
             throw error;
         }
-    }
+    }    
 
     const fetchProductsByCategories = async (categories: string[]) => {
         try {
@@ -232,7 +221,8 @@ const productsModel = () => {
         addData,
         fetchOneWithName,
         deleteProduct,
-        fetchProductsByCategories
+        fetchProductsByCategories,
+        fetchRandomDocuments
         // Add more functions to export here
     };
 }
