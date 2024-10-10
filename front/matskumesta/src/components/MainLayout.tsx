@@ -98,7 +98,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         
         {(loading && 
           <div className='loading-container' style={{marginTop: '20px'}}>
-          <Typography variant='body1'>{loadingMessage}</Typography>
+          <Typography variant='body1' sx={{marginBottom: '10px'}}>{loadingMessage}</Typography>
           <l-reuleaux size={60} color={'#2196f3'} speed={3}></l-reuleaux>
         </div>
         )}
