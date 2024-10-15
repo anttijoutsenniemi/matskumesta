@@ -33,10 +33,10 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
                   type: "text",
                   text: dedent`Could you help me make a product listing of the material/product in this image?
                         The product/material is to be sold on a used/excess material marketplace.
-                        I will give you a JSON where you can fill all info of the product/material. The JSON comes prefilled
-                        with data to give you an idea of how the data might look. In categories -key, choose which categories apply to 
+                        I will give you a JSON where you can fill all info of the product/material. In categories -key, choose which categories apply to 
                         the product and leave those as the value, you can select many if they fit the material/product.
-                        Empty all other prefilled values and create new ones in finnish. 
+                        Empty all other prefilled values and create new ones in finnish. In keywords -key, push important words
+                        from the description and the quality -word as array of strings. 
                         Fill this JSON and return it only: ${fillableJson}`
               },
               {
@@ -103,12 +103,14 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
                   type: "text",
                   text: dedent`Could you help me make a product listing of the materials/products in this image?
                         The product/material is to be sold on a used/excess material marketplace.
-                        I will give you an array of JSON obejcts where you can fill all info of the products/materials. The JSON comes prefilled
-                        with data to give you an idea of how the data might look. In categories -key, choose which categories apply to 
+                        I will give you an array of JSON obejcts where you can fill all info of the products/materials.
+                        In keywords -key, push important words
+                        from the description and the word from quality -key as array of strings. 
+                        In categories -key, choose which categories apply to 
                         the product and leave those as the value, you can select many if they fit the material/product. 
                         If you detect multiple products/materials from the image,
                         you can add each of them as its own entry in the array. If you only detect one, return an array with just its info.
-                        Empty all prefilled values and create new ones in finnish. 
+                        Empty all prefilled values and create new ones in finnish.
                         Fill this array and return it only: ${fillableJson}`
               },
               {
@@ -162,7 +164,8 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
             text: dedent`Can you help me find which of the given categories fit the needs described in this user typed text: ${userText} (end of user text).
             I will give you a JSON with the categories and other keys. Set noCategoryMatches -key to true if none of the categories fit. In explanation -key
             write in finnish your reasoning as to why chosen categories fit. In categories -key leave the matching categories and remove rest, you can choose
-            multiple if they match. Fill this JSON and return it only: ${categories}`
+            multiple if they match. In keywords -key push to the array of strings all important words from user text the user might be searching for. 
+            Fill this JSON and return it only: ${categories}`
         }
       ]
       

@@ -2,6 +2,7 @@
     "title": "lyhyt nimi tuotteelle",
     "description": "neutraali yksityiskohtainen kuvaus",
     "quality": "Uudenveroinen/Hyvä/Keskinkertainen/Tyydyttävä/Huono",
+    "keywords": [],
     "categories": [
         "sahatavara",
         "laudat",
