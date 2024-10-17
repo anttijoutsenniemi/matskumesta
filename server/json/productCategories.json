@@ -47,6 +47,17 @@
         "erikoismateriaalit",
         "kierratysmetalli",
         "kierratyspuu",
-        "uusiokaytto_materiaalit"
+        "uusiokaytto_materiaalit",
+        "puuvillakankaat",
+        "pellavakankaat",
+        "silkkikankaat",
+        "villakankaat",
+        "polyesterikankaat",
+        "samettikankaat",
+        "farkkukankaat",
+        "joustavat_kankaat",
+        "teknilliset_kankaat",
+        "nahkajaljitelmat",
+        "nahka"
     ]
 }
