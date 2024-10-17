@@ -36,7 +36,7 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
                         I will give you a JSON where you can fill all info of the product/material. In categories -key, choose which categories apply to 
                         the product and leave those as the value, you can select many if they fit the material/product.
                         Empty all other prefilled values and create new ones in finnish. In keywords -key, push important words
-                        from the description and the quality -word as array of strings. 
+                        from the description as array of strings. 
                         Fill this JSON and return it only: ${fillableJson}`
               },
               {
@@ -104,8 +104,7 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
                   text: dedent`Could you help me make a product listing of the materials/products in this image?
                         The product/material is to be sold on a used/excess material marketplace.
                         I will give you an array of JSON obejcts where you can fill all info of the products/materials.
-                        In keywords -key, push important words
-                        from the description and the word from quality -key as array of strings. 
+                        In keywords -key, push important words from the description as array of strings. 
                         In categories -key, choose which categories apply to 
                         the product and leave those as the value, you can select many if they fit the material/product. 
                         If you detect multiple products/materials from the image,

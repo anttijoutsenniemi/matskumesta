@@ -215,14 +215,57 @@ const productsModel = () => {
             throw error;
         }
     }
-  
+
+    const fetchProductsByKeywords = async (keywords: string[]) => {
+        try {
+            const result = await productsCollection.aggregate([
+                {
+                    $match: {
+                        'products.keywords': { $in: keywords }  // Match documents with at least one product having the keyword
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,  // Exclude _id
+                        username: 1,  // Include username
+                        products: {
+                            $filter: {
+                                input: "$products",
+                                as: "product",
+                                cond: { 
+                                    $anyElementTrue: {
+                                        $map: {
+                                            input: "$$product.keywords",
+                                            as: "keyword",
+                                            in: { $in: ["$$keyword", keywords] }  // Check if each product's keyword exists in the input categories
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ]).toArray();
+    
+            if (result.length === 0) {
+                console.log('No matching products found.');
+            }
+    
+            return result;
+        } catch (error) {
+            console.error('Connection to db failed code 88:', error);
+            throw error;
+        }
+    }
+
     return {
         fetchData,
         addData,
         fetchOneWithName,
         deleteProduct,
         fetchProductsByCategories,
-        fetchRandomDocuments
+        fetchRandomDocuments,
+        fetchProductsByKeywords
         // Add more functions to export here
     };
 }

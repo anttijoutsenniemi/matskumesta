@@ -114,5 +114,21 @@ apiRoute.post("/fetchRandomProducts", async (req : express.Request, res : expres
     }
 });
 
+apiRoute.post("/fetchMatchingProdsByKeywords", async (req : express.Request, res : express.Response) : Promise<void> => { 
+    try {
+        if(req.body.keywords){
+            let keywords : string[] = req.body.keywords;
+            let result = await productsModule.fetchProductsByKeywords(keywords);
+            res.status(200).json(result);
+        }
+        else{
+            res.status(404).json({ "error" : `invalid input` });
+        }
+        
+    } catch (e : any) {
+        res.status(404).json({ "error" : `error fetching: ${e}` });
+    }
+});
+
 
 export default apiRoute;
