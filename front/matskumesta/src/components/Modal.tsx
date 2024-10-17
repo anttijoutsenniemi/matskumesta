@@ -59,38 +59,44 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
           </div>
 
           <div className="modal-field">
-            <Typography variant="subtitle1">Määrä</Typography>
-            <Typography variant='body1'>{product.amount || 'Ei määritelty'}</Typography>
+            <Typography variant="h6" sx={{marginBottom: '10px'}}>Kuvaus</Typography>
+            <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.description || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
-            <Typography variant="subtitle1">Paino</Typography>
-            <Typography variant='body1'>{product.weight || 'Ei määritelty'}</Typography>
+            <Typography variant="h6" sx={{marginBottom: '10px'}}>Määrä</Typography>
+            <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.amount || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
-            <Typography variant="subtitle1">Laatu</Typography>
-            <Typography variant='body1'>{product.quality || 'Ei määritelty'}</Typography>
+            <Typography variant="h6" sx={{marginBottom: '10px'}}>Paino</Typography>
+            <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.weight || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
-            <Typography variant="subtitle1">Sijainti</Typography>
-            <Typography variant='body1'>{product.location || 'Ei määritelty'}</Typography>
+            <Typography variant="h6" sx={{marginBottom: '10px'}}>Laatu</Typography>
+            <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.quality || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
-            <Typography variant="subtitle1">Pakkaus</Typography>
-            <Typography variant='body1'>{product.packaging || 'Ei määritelty'}</Typography>
+            <Typography variant="h6" sx={{marginBottom: '10px'}}>Sijainti</Typography>
+            <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.location || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
 
           <div className="modal-field">
-            <Typography variant="subtitle1">Jatkuva saatavuus</Typography>
-            <Typography variant='body1'>{product.availability || 'Ei määritelty'}</Typography>
+            <Typography variant="h6" sx={{marginBottom: '10px'}}>Pakkaus</Typography>
+            <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.packaging || 'Ei määritelty'}</Typography>
+            <hr className="divider" />
+          </div>
+
+          <div className="modal-field">
+            <Typography variant="h6" sx={{marginBottom: '10px'}}>Jatkuva saatavuus</Typography>
+            <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.availability || 'Ei määritelty'}</Typography>
             <hr className="divider" />
           </div>
         </div>

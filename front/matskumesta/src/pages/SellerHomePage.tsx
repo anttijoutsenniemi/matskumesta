@@ -122,7 +122,7 @@ const HomePage: React.FC = () => {
                 box2Description='Varaamaton tuote'
               />
             </div>
-          <Button variant='contained' color='primary' onClick={addProducts}>Lisää matskuja</Button>
+          <Button variant='contained' color='primary' onClick={addProducts}>Lisää matskuja myyntiin</Button>
          </div>;
 };
 
