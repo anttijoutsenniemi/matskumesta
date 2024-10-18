@@ -21,10 +21,11 @@ export interface Product {
 
 interface ProductGridProps {
   products: Product[];
-  onProductClick: (id: string | number) => void;
+  onProductClick: (id: string | number, user? : string) => void;
+  user?: string;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick, user }) => {
   // Sort products: green first, yellow second
   
   const sortedProducts = products.sort((a, b) => (a.color === 'green' ? -1 : 1));
@@ -44,6 +45,16 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) =
           flexBasis={{ xs: 'calc(40% - 8px)', md: 'calc(33.33% - 16px)' }} // 2 in a row on mobile, 3 in a row on desktop
           mb={2} // Margin-bottom for rows
         >
+          {(user)
+          ?          
+          <ProductCard
+            id={index}
+            title={product.title}
+            image={product.image}
+            color={product.color}
+            onClick={() => onProductClick(index, user)}
+          />
+          :          
           <ProductCard
             id={index}
             title={product.title}
@@ -51,6 +62,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) =
             color={product.color}
             onClick={onProductClick}
           />
+          }
+
         </Box>
       ))}
     </Box>
