@@ -8,6 +8,7 @@ export interface Product {
     color: string;
     price?: string;
     categories?: string[],
+    reservers?: string[],
     amount?: string;
     weight?: string;
     quality?: string;
@@ -154,6 +155,92 @@ const productsModel = () => {
         }
     };
 
+    // Function to add or edit a reserveuser in the reservers array of a product
+    const addOrEditReserver = async (username: string, productToEdit: Product, reserveuser: string) => {
+        try {
+            // Find the document with the matching username
+            const existingDocument = await productsCollection.findOne({ username });
+
+            if (!existingDocument) {
+                return { error: 'Document not found for the given username' };
+            }
+
+            // Find the product to update within the products array
+            const updatedProducts = existingDocument.products.map((product: Product) => {
+                if (
+                    product.id === productToEdit.id &&
+                    product.title === productToEdit.title &&
+                    product.description === productToEdit.description &&
+                    product.image === productToEdit.image &&
+                    product.color === productToEdit.color &&
+                    product.price === productToEdit.price &&
+                    product.amount === productToEdit.amount &&
+                    product.weight === productToEdit.weight &&
+                    product.quality === productToEdit.quality &&
+                    product.location === productToEdit.location &&
+                    product.packaging === productToEdit.packaging &&
+                    product.availability === productToEdit.availability
+                ) {
+                    // Check if the reservers array exists, if not, initialize it
+                    if (!product.reservers) {
+                        product.reservers = [];
+                    }
+
+                    // Add the reserveuser if it doesn't already exist in the reservers array
+                    if (!product.reservers.includes(reserveuser)) {
+                        product.reservers.push(reserveuser);
+                    }
+                }
+
+                return product;
+            });
+
+            // Update the document with the modified products array
+            await productsCollection.updateOne(
+                { username },
+                { $set: { products: updatedProducts } }
+            );
+
+            // Fetch the updated document and return it
+            const updatedDocument = await productsCollection.findOne({ username });
+            return { ok: 'Reserver added or updated successfully', document: updatedDocument };
+        } catch (error) {
+            console.error('Failed to add or edit reserver with status code 102', error);
+            throw error;
+        }
+    };
+
+    // Function to find all products where a given reserveuser is found
+    const findProductsByReserver = async (reserveuser: string) => {
+        try {
+            // Find documents where any product contains the reserveuser in the reservers array
+            const documentsWithReserver = await productsCollection.find({
+                "products": {
+                    $elemMatch: {
+                        reservers: reserveuser
+                    }
+                }
+            }).toArray();
+
+            if (documentsWithReserver.length === 0) {
+                return { error: 'No products found for the given reserveuser' };
+            }
+
+            // Filter out only the products where the reserveuser is found in the reservers array
+            const productsWithReserver = documentsWithReserver.map(document => {
+                return {
+                    username: document.username,
+                    products: document.products.filter((product: Product) => product.reservers && product.reservers.includes(reserveuser))
+                };
+            });
+
+            return { ok: 'Products found successfully', document: productsWithReserver };
+        } catch (error) {
+            console.error('Failed to find products by reserveuser with status code 103', error);
+            throw error;
+        }
+    };
+
     //fetch x random documents and return array
     const fetchRandomDocuments = async () => {
         try {
@@ -265,7 +352,9 @@ const productsModel = () => {
         deleteProduct,
         fetchProductsByCategories,
         fetchRandomDocuments,
-        fetchProductsByKeywords
+        fetchProductsByKeywords,
+        addOrEditReserver,
+        findProductsByReserver
         // Add more functions to export here
     };
 }

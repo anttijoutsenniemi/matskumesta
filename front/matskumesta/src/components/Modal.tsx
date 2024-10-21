@@ -43,6 +43,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
 
   const reserveProduct = () => {
     //next do reserve logic here (fill the products reservers-array with the username who clicked reserve product)
+    
   }
 
   return (
