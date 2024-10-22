@@ -128,8 +128,6 @@ const productsModel = () => {
             product.id === productToDelete.id &&
             product.title === productToDelete.title &&
             product.description === productToDelete.description &&
-            product.image === productToDelete.image &&
-            product.color === productToDelete.color &&
             product.price === productToDelete.price &&
             product.amount === productToDelete.amount &&
             product.weight === productToDelete.weight &&
@@ -171,8 +169,6 @@ const productsModel = () => {
                     product.id === productToEdit.id &&
                     product.title === productToEdit.title &&
                     product.description === productToEdit.description &&
-                    product.image === productToEdit.image &&
-                    product.color === productToEdit.color &&
                     product.price === productToEdit.price &&
                     product.amount === productToEdit.amount &&
                     product.weight === productToEdit.weight &&
@@ -189,6 +185,7 @@ const productsModel = () => {
                     // Add the reserveuser if it doesn't already exist in the reservers array
                     if (!product.reservers.includes(reserveuser)) {
                         product.reservers.push(reserveuser);
+                        product.color = "green";
                     }
                 }
 

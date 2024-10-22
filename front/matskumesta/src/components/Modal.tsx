@@ -3,7 +3,7 @@ import './../styles/modal.css';
 import { Product } from './ProductGrid';
 import useStore from '../stores/useStore';
 import { Typography } from '@mui/material';
-import { deleteProduct } from './ApiFetches';
+import { deleteProduct, reserveProduct } from './ApiFetches';
 import { useAuth } from '../context/authContext';
 
 interface ModalProps {
@@ -11,9 +11,10 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   product: Product;
+  sellername?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellername }) => {
   const { username, isSeller, setLoading, setLoadingMessage, setErrorMessage, setSellerFinalProducts } = useStore();
   const { logout, token } = useAuth();
 
@@ -25,7 +26,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
 
   const deleteProductAndReturnNew = async () => {
     setLoading(true);
-    setLoadingMessage('Deleting product...');
+    setLoadingMessage('Poistetaan product...');
     let token2 : string = token || 'juu';
     let dbProcess = await deleteProduct(username, product, logout, token2);
     if(dbProcess.ok){
@@ -41,9 +42,24 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
     closeModal();
   }
 
-  const reserveProduct = () => {
+  const reserveProductHandler = async () => {
     //next do reserve logic here (fill the products reservers-array with the username who clicked reserve product)
-    
+    setLoading(true);
+    setLoadingMessage('Varataan tuotetta...');
+    let token2 : string = token || 'juu';
+    let seller : string = sellername || "testi";
+    let dbProcess = await reserveProduct(seller, product, username, logout, token2);
+    if(dbProcess.ok){
+      setLoading(false);
+      setErrorMessage('');
+      let newProducts = dbProcess.document.products;
+      setSellerFinalProducts(newProducts);
+      alert('Tuote varattu! Saat myyjän yhteystiedot näkyviin kun varaus on hyväksytty.');
+    }
+    else{
+      setLoading(false);
+      setErrorMessage('Error occured deleting product, check your connection and try again later.')
+    }
   }
 
   return (
@@ -110,7 +126,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product }) => {
             <button className='modal-option-button' onClick={closeModal}>Sulje ikkuna</button>
           </>
         : <>
-            <button className='modal-option-button' onClick={reserveProduct}>Varaa tuote</button>
+            <button className='modal-option-button' onClick={reserveProductHandler}>Varaa tuote</button>
             <button className='modal-option-button' onClick={closeModal}>Sulje ikkuna</button>
           </>
         }
