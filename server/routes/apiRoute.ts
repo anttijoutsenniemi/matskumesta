@@ -94,7 +94,6 @@ apiRoute.post("/fetchBuyerReservedProducts", async (req : express.Request, res :
         if(req.body.username){
             let username : string = req.body.username;
             let result = await productsModule.findProductsByReserver(username);
-            console.log(result);
             res.status(200).json(result);
         }
         else{
