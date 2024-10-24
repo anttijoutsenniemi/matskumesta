@@ -82,40 +82,46 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
             { label: 'Sijainti', field: 'location' },
             { label: 'Pakkaus', field: 'packaging' },
             { label: 'Jatkuva saatavuus', field: 'availability' },
-          ].map(({ label, field }) => (
+          ].map(({ label, field }) => {
 
-            (label === 'Kuvaus') //pasting an expanding field for description
-            ? <div className="modal-field" key={field}>
-              <Typography variant="subtitle1">{label}</Typography>
-              <textarea
-                ref={textareaRef}
-                maxLength={300}
-                value={editableProduct[field as keyof Product]}
-                onChange={(e) => handleChange(field as keyof Product, e.target.value, e)}
-                className="editable-rounded-input"
-                placeholder="Kirjoita tähän kuvaus"
-                rows={8} // Start with one row
-                style={{
-                  fontSize: '16px',
-                  overflow: 'hidden',
-                  resize: 'none',
-                  minHeight: '40px', // Minimum height for the input
-                }}
-              />
-            </div>
-
-            : //normal fields for other fields
-            <div className="modal-field" key={field}>
-              <Typography variant="subtitle1">{label}</Typography>
-              <TextField
-                value={editableProduct[field as keyof Product]}
-                onChange={(e) => handleChange(field as keyof Product, e.target.value)}
-                variant="outlined"
-                fullWidth
-              />
-              {/* <hr className="divider" /> */}
-            </div>
-          ))}
+            const value = editableProduct[field as keyof Product];
+        
+            // Check if the field is an array (like Reserver[]) and handle appropriately
+            const stringValue = (typeof value === 'string' || typeof value === 'number') 
+              ? String(value) 
+              : '';
+        
+            return label === 'Kuvaus' ? (
+              <div className="modal-field" key={field}>
+                <Typography variant="subtitle1">{label}</Typography>
+                <textarea
+                  ref={textareaRef}
+                  maxLength={300}
+                  value={stringValue} // Only pass valid string values
+                  onChange={(e) => handleChange(field as keyof Product, e.target.value, e)}
+                  className="editable-rounded-input"
+                  placeholder="Kirjoita tähän kuvaus"
+                  rows={8}
+                  style={{
+                    fontSize: '16px',
+                    overflow: 'hidden',
+                    resize: 'none',
+                    minHeight: '40px',
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="modal-field" key={field}>
+                <Typography variant="subtitle1">{label}</Typography>
+                <TextField
+                  value={stringValue} // Only pass valid string values
+                  onChange={(e) => handleChange(field as keyof Product, e.target.value)}
+                  variant="outlined"
+                  fullWidth
+                />
+              </div>
+            );
+          })}
         </div>
 
         <footer className="modal-footer">

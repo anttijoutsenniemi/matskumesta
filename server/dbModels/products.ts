@@ -1,5 +1,10 @@
 import { MongoClient, Collection, Document } from 'mongodb';
 
+export interface Reserver {
+    reserver: string;
+    accepted: boolean;
+}
+
 export interface Product {
     id: number;
     title: string;
@@ -8,7 +13,7 @@ export interface Product {
     color: string;
     price?: string;
     categories?: string[],
-    reservers?: string[],
+    reservers?: Reserver[],
     amount?: string;
     weight?: string;
     quality?: string;
@@ -182,9 +187,13 @@ const productsModel = () => {
                         product.reservers = [];
                     }
 
+                    const reserverExists = product.reservers.some(
+                        reserverObj => reserverObj.reserver === reserveuser
+                    );
+                    
                     // Add the reserveuser if it doesn't already exist in the reservers array
-                    if (!product.reservers.includes(reserveuser)) {
-                        product.reservers.push(reserveuser);
+                    if (!reserverExists) {
+                        product.reservers.push({ reserver: reserveuser, accepted: false });
                         product.color = "green";
                     }
                 }
@@ -210,27 +219,33 @@ const productsModel = () => {
     // Function to find all products where a given reserveuser is found
     const findProductsByReserver = async (reserveuser: string) => {
         try {
-            // Find documents where any product contains the reserveuser in the reservers array
+            // Modify the query to look for a match within the reservers array objects
             const documentsWithReserver = await productsCollection.find({
                 "products": {
                     $elemMatch: {
-                        reservers: reserveuser
+                        reservers: {
+                            $elemMatch: {
+                                reserver: reserveuser
+                            }
+                        }
                     }
                 }
             }).toArray();
-
+    
             if (documentsWithReserver.length === 0) {
                 return { error: 'No products found for the given reserveuser' };
             }
-
+    
             // Filter out only the products where the reserveuser is found in the reservers array
             const productsWithReserver = documentsWithReserver.map(document => {
                 return {
                     username: document.username,
-                    products: document.products.filter((product: Product) => product.reservers && product.reservers.includes(reserveuser))
+                    products: document.products.filter((product: Product) => 
+                        product.reservers && product.reservers.some(reserverObj => reserverObj.reserver === reserveuser)
+                    )
                 };
             });
-
+    
             return { ok: 'Products found successfully', document: productsWithReserver };
         } catch (error) {
             console.error('Failed to find products by reserveuser with status code 103', error);

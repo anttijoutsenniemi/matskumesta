@@ -5,6 +5,8 @@ import useStore from '../stores/useStore';
 import { Typography } from '@mui/material';
 import { deleteProduct, reserveProduct } from './ApiFetches';
 import { useAuth } from '../context/authContext';
+import { fetchOneEmail } from './ApiFetches';
+import ReservationAccepted from './ContactInfoCard';
 
 interface ModalProps {
   isOpen: boolean;
@@ -12,9 +14,10 @@ interface ModalProps {
   title: string;
   product: Product;
   sellername?: string;
+  accepted?: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellername }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellername, accepted }) => {
   const { username, isSeller, setLoading, setLoadingMessage, setErrorMessage, setSellerFinalProducts } = useStore();
   const { logout, token } = useAuth();
 
@@ -24,9 +27,20 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
     onClose();
   }
 
+  const fetchEmail = async () => {
+    if(sellername){
+      let token2 : string = token || "juu";
+      let email : string = await fetchOneEmail(sellername, logout, token2);
+      return email;
+    }
+    else{
+      return "Virhe tapahtui yhteystietoja hakiessa";
+    }
+  }
+
   const deleteProductAndReturnNew = async () => {
     setLoading(true);
-    setLoadingMessage('Poistetaan product...');
+    setLoadingMessage('Poistetaan tuote...');
     let token2 : string = token || 'juu';
     let dbProcess = await deleteProduct(username, product, logout, token2);
     if(dbProcess.ok){
@@ -69,6 +83,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
           <Typography variant='h4'>{product.title}</Typography>
           <button onClick={() => closeModal()} className="close-button">✖</button>
         </header>
+
+        {(accepted && product.reservers?.some(reserver => reserver.reserver === username && reserver.accepted))
+          ? <ReservationAccepted fetchEmail={fetchEmail}/>
+          : null
+        }
 
         <div className="modal-content">
           <div className="modal-image">
@@ -126,7 +145,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
             <button className='modal-option-button' onClick={closeModal}>Sulje ikkuna</button>
           </>
         : <>
-            <button className='modal-option-button' onClick={reserveProductHandler}>Varaa tuote</button>
+            { (!accepted)  //we dont want to show this on screen where are already all reserved products
+              ? <button className='modal-option-button' onClick={reserveProductHandler}>Varaa tuote</button>
+              : null
+            }
             <button className='modal-option-button' onClick={closeModal}>Sulje ikkuna</button>
           </>
         }

@@ -143,6 +143,33 @@ export const fetchBuyerReservedProducts = async (username : string, logout: any,
   }
 };
 
+export const fetchOneEmail = async (username : string, logout: any, token?: string) => {
+  try {
+      //const response = await axios.post('/apiroute/fetchOneEmail',  
+    const response = await axios.post(
+      'http://localhost:8000/apiroute/fetchOneEmail',
+      { username : username }, //reqbody
+      {
+        headers: {
+          // Include the JWT token in the Authorization header if provided
+          Authorization: token ? `Bearer ${token}` : '',
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+      // Check if the error is an AxiosError and if the response status is 403
+    if (axios.isAxiosError(error) && error.response?.status === 403) {
+      console.error('Access forbidden: You do not have permission to access this resource.', error);
+      logout();
+      // return { message: 'Access forbidden: You do not have permission to access this resource.' };
+    } else {
+      // Handle other errors
+      console.error('There was an error!', error);
+    }
+  }
+};
+
 export const fetchMatchingProdsByCategory = async (categories : string[], logout: any, token?: string) => {
   try {
     //const response = await axios.post('/apiroute/fetchMatchingProdsByCategory',  

@@ -2,6 +2,11 @@ import React from 'react';
 import { Box } from '@mui/material';
 import ProductCard from './ProductCard';
 
+export interface Reserver {
+  reserver: string;
+  accepted: boolean;
+}
+
 export interface Product {
   id: number;
   title: string;
@@ -9,7 +14,7 @@ export interface Product {
   image: string;
   color: string;
   categories?: string[];
-  reservers?: string[],
+  reservers?: Reserver[],
   keywords?: string[],
   price?: string;
   amount?: string;

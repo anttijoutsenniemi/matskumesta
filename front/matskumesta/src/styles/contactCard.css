@@ -1,0 +1,35 @@
+.reservation-container {
+    background-color: #32CD32; /* Green slab */
+    padding: 20px;
+    border-radius: 10px; /* Rounded borders */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .reservation-message {
+    color: white;
+    font-size: 18px;
+  }
+  
+  .contact-button {
+    padding: 10px 15px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .contact-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .contact-info {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  

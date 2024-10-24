@@ -14,7 +14,7 @@ interface FilledProduct {
   quality: string,
 }
 
-interface UserProductArray {
+export interface UserProductArray {
   username: string,
   products: Product[]
 }
@@ -34,7 +34,7 @@ interface CentralState {
   manyFilledProducts: any,
   sellerProductImg64: string,
   sellerFinalProducts: Product[] | null,
-  buyerReservedProducts: Product[] | null,
+  buyerReservedProducts: UserProductArray[] | null,
   buyerFoundProducts: UserProductArray[] | null,
   foundAiText: string,
   // count: number
@@ -55,7 +55,7 @@ interface CentralState {
   setManyFilledProducts: (manyFilledProd: any) => void
   setSellerProductImg64: (sellerImg64: string) => void,
   setSellerFinalProducts: (sellerFinalProds: Product[] | null) => void,
-  setBuyerReservedProducts: (buyerReservedProds: Product[] | null) => void,
+  setBuyerReservedProducts: (buyerReservedProds: UserProductArray[] | null) => void,
   setBuyerFoundProducts: (buyerFoundProds : UserProductArray[] | null) => void,
   setFoundAiText: (aiText : string) => void,
   // increment: () => void

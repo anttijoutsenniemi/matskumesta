@@ -33,6 +33,22 @@ const userModel = () => {
         } 
     }
 
+    //find one by id and return it as json
+    const fetchOneEmailWithName = async (username : string) => {
+        try {
+            const result = await userCollection.findOne({username : username});
+            if (result){
+                return result.email;
+            }
+            else{
+                return "";
+            }
+        } catch (error) {
+            console.error('Conncetion to db failed code 88: ', error);
+            throw error;
+        } 
+    }
+
     //find one by email and return it as json
     const fetchOneWithEmail = async (email : string) => {
         try {
@@ -70,7 +86,8 @@ const userModel = () => {
         fetchData,
         addData,
         fetchOneWithName,
-        fetchOneWithEmail
+        fetchOneWithEmail,
+        fetchOneEmailWithName
         // Add more functions to export here
     };
 }

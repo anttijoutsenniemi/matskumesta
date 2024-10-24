@@ -1,9 +1,11 @@
 import express from 'express';
 import productsModel, { Product, ProductsData } from '../dbModels/products';
 import reserveListModel from '../dbModels/reserveList';
+import userModel from '../dbModels/users';
 
 const productsModule = productsModel();
 const reserveListModule = reserveListModel();
+const userModule = userModel();
 
 const apiRoute : express.Router = express.Router();
 
@@ -11,6 +13,22 @@ apiRoute.get("/", async (req : express.Request, res : express.Response) : Promis
     try {
 
         res.status(200).json({ "message" : "apiroute initialized"});
+
+    } catch (e : any) {
+        res.status(404).json({ "error" : `error fetching: ${e}` });
+    }
+});
+
+apiRoute.post("/fetchOneEmail", async (req : express.Request, res : express.Response) : Promise<void> => { 
+    try {
+        if(req.body.username){
+            let username : string = req.body.username;
+            let result : string = await userModule.fetchOneEmailWithName(username);
+            res.status(200).json(result);
+        }
+        else{
+            res.status(404).json({ "error" : `invalid input` });
+        }
 
     } catch (e : any) {
         res.status(404).json({ "error" : `error fetching: ${e}` });
@@ -75,7 +93,8 @@ apiRoute.post("/fetchBuyerReservedProducts", async (req : express.Request, res :
     try {
         if(req.body.username){
             let username : string = req.body.username;
-            let result = await reserveListModule.fetchOneWithName(username);
+            let result = await productsModule.findProductsByReserver(username);
+            console.log(result);
             res.status(200).json(result);
         }
         else{

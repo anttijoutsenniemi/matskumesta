@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import useStore from '../stores/useStore';
+import useStore, { UserProductArray } from '../stores/useStore';
 import { Typography, Button, useTheme } from '@mui/material';
 import Modal from '../components/Modal';
 import ProductGrid, { Product } from '../components/ProductGrid';
@@ -14,15 +14,33 @@ const BuyerHomePage: React.FC = () => {
   const { logout, token } = useAuth();
   const navigate = useNavigate();
 
+  // Function to check for a specific reserver and update the product color
+  const checkReserverAndUpdateColor = (productsData: UserProductArray[], username: string) => {
+    productsData.forEach((userProduct) => {
+      userProduct.products.forEach((product) => {
+        product.color = 'yellow';
+
+        const hasAcceptedReserver = product.reservers?.some(
+          (reserver) => reserver.reserver === username && reserver.accepted
+        );
+        if (hasAcceptedReserver) {
+          product.color = 'green';
+        }
+      });
+    });
+    return productsData;
+  };
+
   useEffect(() => { //we fetch and fill products if found on app start
     const fetchData = async () => {
       if (!buyerReservedProducts) {
         try {
           let token2 : string = token || 'juu';
           let newProducts = await fetchBuyerReservedProducts(username, logout, token2);
-          if(newProducts){ //should return null if user has no products
-            let products = newProducts.products;
-            setBuyerReservedProducts(products);
+          if(newProducts.ok){ //should return null if user has no products
+            let products = newProducts.document;
+            let filteredProducts = checkReserverAndUpdateColor(products, username);
+            setBuyerReservedProducts(filteredProducts);
           }
           else{
             setBuyerReservedProducts(null);
@@ -35,19 +53,40 @@ const BuyerHomePage: React.FC = () => {
     fetchData();
   }, []);
 
+  const fetchReservedProducts = async () => {
+    try {
+      let token2 : string = token || 'juu';
+      let newProducts = await fetchBuyerReservedProducts(username, logout, token2);
+      if(newProducts.ok){ //should return null if user has no products
+        let products = newProducts.document;
+        let filteredProducts = checkReserverAndUpdateColor(products, username);
+        setBuyerReservedProducts(filteredProducts);;
+      }
+      else{
+        setBuyerReservedProducts(null);
+      }
+    } catch (error) {
+      console.error('Error fetching buyer products:', error);
+    }
+  }
+
   const openModal = () => {
     setModalOpen(true);
   }
   const closeModal = () => setModalOpen(false);
 
-  const handleProductClick = (id: string | number) => {
+  const handleProductClick = (id: string | number, user?: string) => {
 
-    if(buyerReservedProducts){
+    if(buyerReservedProducts && user){
       let identifier : number = Number(id);
-      let newProduct : Product = buyerReservedProducts[identifier];
+      const newUser = buyerReservedProducts.find(userProd => userProd.username === user);
 
-      setSelectedProduct(newProduct);
-      openModal();
+      if (newUser && identifier >= 0 && identifier < newUser.products.length) {
+        let newProduct : Product = newUser.products[identifier];
+        setSelectedProduct(newProduct);
+        openModal();
+      }
+
     }
   };
 
@@ -61,10 +100,14 @@ const BuyerHomePage: React.FC = () => {
             <div className='matskut-container' style={{marginTop: '10px', marginBottom: '10px'}}>
               {
                 (buyerReservedProducts)
-                ? <>
-                    <ProductGrid products={buyerReservedProducts} onProductClick={handleProductClick}/>
-                    <Modal title='Matskun tiedot' product={selectedProduct} isOpen={modalOpen} onClose={closeModal}/>
-                  </>
+                ?  buyerReservedProducts.map((userAndProducts, index) => (
+                    <div key={index} style={{marginBottom: '10px', marginTop: '10px'}}>
+                      <Typography sx={{marginBottom: '20px'}} variant='subtitle1'>Myyjän: {userAndProducts.username} matskut</Typography>
+                      <ProductGrid products={userAndProducts.products} user={userAndProducts.username} onProductClick={handleProductClick}/>
+                      <Modal title='Matskun tiedot' product={selectedProduct} isOpen={modalOpen} accepted sellername={userAndProducts.username} onClose={closeModal}/>
+                    </div>
+                ))              
+                  
                 : <>
                     <Typography variant='subtitle1' sx={{marginBottom: '10px'}}>Et ole vielä varannut matskuja, alla olevasta napista pääset helposti löytämään tarpeisiisi sopivia matskuja tekoälyn avulla!</Typography>
                   </>
@@ -79,7 +122,8 @@ const BuyerHomePage: React.FC = () => {
                 box2Description='Varausta ei ole vielä hyväksytty'
               />
             </div>
-          <Button variant='contained' color='primary' onClick={findProducts}>Etsi matskuja</Button>
+          <Button sx={{margin: "5px"}} variant='contained' color='primary' onClick={findProducts}>Etsi matskuja</Button>
+          <Button sx={{margin: "5px"}} variant='outlined' color='primary' onClick={fetchReservedProducts}>Päivitä</Button>
          </div>;
 };
 
