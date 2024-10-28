@@ -3,8 +3,8 @@ import { Product } from "./ProductGrid";
 
 export const signupSelf = async (reqBody: object) => {
     try {
-        //const response = await axios.post('/auth/signup', 
-        const response = await axios.post('http://localhost:8000/auth/signup', 
+        const response = await axios.post('/auth/signup',
+        // const response = await axios.post('http://localhost:8000/auth/signup', 
         reqBody, //req.body
         {
           auth: {
@@ -20,8 +20,8 @@ export const signupSelf = async (reqBody: object) => {
 
 export const loginSelf = async (reqBody : object) => {
   try {
-      //const response = await axios.post('/auth/login',
-      const response = await axios.post('http://localhost:8000/auth/login',
+      const response = await axios.post('/auth/login',
+      // const response = await axios.post('http://localhost:8000/auth/login',
       reqBody, //req.body
       {
         auth: {
@@ -37,9 +37,8 @@ export const loginSelf = async (reqBody : object) => {
 
 export const fetchSellerProducts = async (username : string, logout: any, token?: string) => {
   try {
-      //const response = await axios.post('/apiroute/fetchSellerProducts',  
-    const response = await axios.post(
-      'http://localhost:8000/apiroute/fetchSellerProducts',
+      const response = await axios.post('/apiroute/fetchSellerProducts',  
+    // const response = await axios.post('http://localhost:8000/apiroute/fetchSellerProducts',
       { username : username }, //reqbody
       {
         headers: {
@@ -64,9 +63,8 @@ export const fetchSellerProducts = async (username : string, logout: any, token?
 
 export const addProducts = async (username : string, products: Product[], logout: any, token?: string) => {
   try {
-      //const response = await axios.post('/apiroute/addProducts',  
-    const response = await axios.post(
-      'http://localhost:8000/apiroute/addProducts',
+      const response = await axios.post('/apiroute/addProducts',  
+    // const response = await axios.post('http://localhost:8000/apiroute/addProducts',
       { username : username, products: products }, //reqbody
       {
         headers: {
@@ -91,9 +89,8 @@ export const addProducts = async (username : string, products: Product[], logout
 
 export const deleteProduct = async (username : string, productToDelete: Product, logout: any, token?: string) => {
   try {
-      //const response = await axios.post('/apiroute/deleteProduct',  
-    const response = await axios.post(
-      'http://localhost:8000/apiroute/deleteProduct',
+      const response = await axios.post('/apiroute/deleteProduct',  
+    // const response = await axios.post('http://localhost:8000/apiroute/deleteProduct',
       { username : username, productToDelete: productToDelete }, //reqbody
       {
         headers: {
@@ -118,9 +115,8 @@ export const deleteProduct = async (username : string, productToDelete: Product,
 
 export const fetchBuyerReservedProducts = async (username : string, logout: any, token?: string) => {
   try {
-      //const response = await axios.post('/apiroute/fetchBuyerReservedProducts',  
-    const response = await axios.post(
-      'http://localhost:8000/apiroute/fetchBuyerReservedProducts',
+      const response = await axios.post('/apiroute/fetchBuyerReservedProducts',  
+    // const response = await axios.post('http://localhost:8000/apiroute/fetchBuyerReservedProducts',
       { username : username }, //reqbody
       {
         headers: {
@@ -145,9 +141,8 @@ export const fetchBuyerReservedProducts = async (username : string, logout: any,
 
 export const fetchOneEmail = async (username : string, logout: any, token?: string) => {
   try {
-      //const response = await axios.post('/apiroute/fetchOneEmail',  
-    const response = await axios.post(
-      'http://localhost:8000/apiroute/fetchOneEmail',
+      const response = await axios.post('/apiroute/fetchOneEmail',  
+    // const response = await axios.post('http://localhost:8000/apiroute/fetchOneEmail',
       { username : username }, //reqbody
       {
         headers: {
@@ -172,9 +167,8 @@ export const fetchOneEmail = async (username : string, logout: any, token?: stri
 
 export const fetchMatchingProdsByCategory = async (categories : string[], logout: any, token?: string) => {
   try {
-    //const response = await axios.post('/apiroute/fetchMatchingProdsByCategory',  
-    const response = await axios.post(
-      'http://localhost:8000/apiroute/fetchMatchingProdsByCategory',
+    const response = await axios.post('/apiroute/fetchMatchingProdsByCategory',  
+    // const response = await axios.post('http://localhost:8000/apiroute/fetchMatchingProdsByCategory',
       { categories : categories }, //reqbody
       {
         headers: {
@@ -199,9 +193,8 @@ export const fetchMatchingProdsByCategory = async (categories : string[], logout
 
 export const fetchRandomProducts = async (logout: any, token?: string) => {
   try {
-    //const response = await axios.post('/apiroute/fetchRandomProducts,  
-    const response = await axios.post(
-      'http://localhost:8000/apiroute/fetchRandomProducts',
+    const response = await axios.post('/apiroute/fetchRandomProducts',  
+    // const response = await axios.post('http://localhost:8000/apiroute/fetchRandomProducts',
       {
         headers: {
           // Include the JWT token in the Authorization header if provided
@@ -225,9 +218,8 @@ export const fetchRandomProducts = async (logout: any, token?: string) => {
 
 export const fetchMatchingProdsByKeywords = async (keywords : string[], logout: any, token?: string) => {
   try {
-    //const response = await axios.post('/apiroute/fetchMatchingProdsByKeywords',  
-    const response = await axios.post(
-      'http://localhost:8000/apiroute/fetchMatchingProdsByKeywords',
+    const response = await axios.post('/apiroute/fetchMatchingProdsByKeywords',  
+    // const response = await axios.post('http://localhost:8000/apiroute/fetchMatchingProdsByKeywords',
       { keywords : keywords }, //reqbody
       {
         headers: {
@@ -252,9 +244,8 @@ export const fetchMatchingProdsByKeywords = async (keywords : string[], logout: 
 
 export const reserveProduct = async (username : string, product: Product, reserver: string, logout: any, token?: string) => {
   try {
-      //const response = await axios.post('/apiroute/addReserver',  
-    const response = await axios.post(
-      'http://localhost:8000/apiroute/addReserver',
+      const response = await axios.post('/apiroute/addReserver',  
+    // const response = await axios.post('http://localhost:8000/apiroute/addReserver',
       { username : username, product: product, reserver: reserver }, //reqbody
       {
         headers: {

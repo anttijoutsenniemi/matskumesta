@@ -2,9 +2,8 @@ import axios from "axios";
 
 export const fillProductDataWithImg = async (img64 : string, logout : any, token?: string) => {
     try {
-        //const response = await axios.post('/airoute/fillproductdatawithimg', 
-      const response = await axios.post(
-        'http://localhost:8000/airoute/fillproductdatawithimg',
+        const response = await axios.post('/airoute/fillproductdatawithimg', 
+      // const response = await axios.post('http://localhost:8000/airoute/fillproductdatawithimg',
         { img : img64 }, //reqbody
         {
           headers: {
@@ -33,9 +32,8 @@ export const fillProductDataWithImg = async (img64 : string, logout : any, token
 
 export const fillManyProductDataWithImg = async (img64 : string, logout: any, token?: string) => {
     try {
-        //const response = await axios.post('/airoute/fillmanyproductdatawithimg',  
-      const response = await axios.post(
-        'http://localhost:8000/airoute/fillmanyproductdatawithimg',
+        const response = await axios.post('/airoute/fillmanyproductdatawithimg',  
+      // const response = await axios.post('http://localhost:8000/airoute/fillmanyproductdatawithimg',
         { img : img64 }, //reqbody
         {
           headers: {
@@ -64,9 +62,8 @@ export const fillManyProductDataWithImg = async (img64 : string, logout: any, to
 
 export const analyzeUserText = async (userText : string, logout: any, token?: string) => {
   try {
-      //const response = await axios.post('/airoute/analyzeUserText',  
-    const response = await axios.post(
-      'http://localhost:8000/airoute/analyzeUserText',
+      const response = await axios.post('/airoute/analyzeUserText',  
+    // const response = await axios.post('http://localhost:8000/airoute/analyzeUserText',
       { userText : userText }, //reqbody
       {
         headers: {
