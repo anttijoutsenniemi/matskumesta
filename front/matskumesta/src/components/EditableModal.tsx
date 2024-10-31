@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Typography, TextField, Button } from '@mui/material';
+import { Typography, TextField, Button, Select, MenuItem } from '@mui/material';
 import { Product } from './ProductGrid';
 import useStore from '../stores/useStore';
 
@@ -82,22 +82,28 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
             { label: 'Sijainti', field: 'location' },
             { label: 'Pakkaus', field: 'packaging' },
             { label: 'Jatkuva saatavuus', field: 'availability' },
+            { label: 'Käyttökohteet', field: 'usecases' },
           ].map(({ label, field }) => {
 
             const value = editableProduct[field as keyof Product];
-        
+
             // Check if the field is an array (like Reserver[]) and handle appropriately
             const stringValue = (typeof value === 'string' || typeof value === 'number') 
               ? String(value) 
               : '';
-        
+
+            // Quality options
+            const qualityOptions = ['Erinomainen', 'Hyvä', 'Keskinkertainen', 'Heikko', 'Huono'];
+            // Use case options
+            const useCaseOptions = ['Rakentaminen', 'Sisustus', 'Remontointi', 'Lämmitys', 'Verhoilu'];
+
             return label === 'Kuvaus' ? (
               <div className="modal-field" key={field}>
                 <Typography variant="subtitle1">{label}</Typography>
                 <textarea
                   ref={textareaRef}
                   maxLength={300}
-                  value={stringValue} // Only pass valid string values
+                  value={stringValue}
                   onChange={(e) => handleChange(field as keyof Product, e.target.value, e)}
                   className="editable-rounded-input"
                   placeholder="Kirjoita tähän kuvaus"
@@ -110,11 +116,43 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
                   }}
                 />
               </div>
+            ) : label === 'Laatu' ? (
+              <div className="modal-field" key={field}>
+                <Typography variant="subtitle1">{label}</Typography>
+                <Select
+                  value={stringValue}
+                  onChange={(e) => handleChange(field as keyof Product, e.target.value)}
+                  variant="outlined"
+                  fullWidth
+                >
+                  {qualityOptions.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+            ) : label === 'Käyttökohteet' ? (
+              <div className="modal-field" key={field}>
+                <Typography variant="subtitle1">{label}</Typography>
+                <Select
+                  value={stringValue}
+                  onChange={(e) => handleChange(field as keyof Product, e.target.value)}
+                  variant="outlined"
+                  fullWidth
+                >
+                  {useCaseOptions.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
             ) : (
               <div className="modal-field" key={field}>
                 <Typography variant="subtitle1">{label}</Typography>
                 <TextField
-                  value={stringValue} // Only pass valid string values
+                  value={stringValue}
                   onChange={(e) => handleChange(field as keyof Product, e.target.value)}
                   variant="outlined"
                   fullWidth
@@ -122,6 +160,7 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
               </div>
             );
           })}
+
         </div>
 
         <footer className="modal-footer">

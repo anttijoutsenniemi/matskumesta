@@ -14,6 +14,7 @@ export interface Product {
   image: string;
   color: string;
   categories?: string[];
+  useCases?: string[],
   reservers?: Reserver[],
   keywords?: string[],
   price?: string;

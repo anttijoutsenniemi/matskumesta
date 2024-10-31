@@ -101,6 +101,23 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
           </div>
 
           <div className="modal-field">
+            <Typography variant="h6" sx={{marginBottom: '10px'}}>Käyttökohteet</Typography>
+            {(product.useCases)
+            ?
+            <>
+            {            
+              product.useCases?.map((usecase, index) => (
+              <div key={index} style={{backgroundColor: 'grey', padding: '5px', borderRadius: '10px'}}>
+                <Typography variant='body1' sx={{marginBottom: '10px'}}>{usecase}</Typography>
+              </div>
+            ))}
+              </>
+            : <Typography variant='body1' sx={{marginBottom: '10px'}}>Ei määritelty</Typography>
+            }
+            <hr className="divider" />
+          </div>
+
+          <div className="modal-field">
             <Typography variant="h6" sx={{marginBottom: '10px'}}>Määrä</Typography>
             <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.amount || 'Ei määritelty'}</Typography>
             <hr className="divider" />

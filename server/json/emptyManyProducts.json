@@ -2,7 +2,8 @@
     {
         "title": "lyhyt nimi tuotteelle",
         "description": "neutraali yksityiskohtainen kuvaus",
-        "quality": "Uudenveroinen/Hyvä/Keskinkertainen/Tyydyttävä/Huono",
+        "quality": ["Erinomainen", "Hyvä", "Keskinkertainen", "Heikko", "Huono"],
+        "useCases": ["Rakentaminen", "Sisustus", "Remontointi", "Lämmitys", "Verhoilu"],
         "keywords": [],
         "categories": [
             "sahatavara",
@@ -55,7 +56,9 @@
     {
         "title": "lyhyt nimi tuotteelle",
         "description": "neutraali yksityiskohtainen kuvaus",
-        "quality": "Uudenveroinen/Hyvä/Keskinkertainen/Tyydyttävä/Huono",
+        "quality": ["Erinomainen", "Hyvä", "Keskinkertainen", "Heikko", "Huono"],
+        "useCases": ["Rakentaminen", "Sisustus", "Remontointi", "Lämmitys", "Verhoilu"],
+        "keywords": [],
         "categories": ["same as in object 1"]
     }
 ]
