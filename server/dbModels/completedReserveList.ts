@@ -1,10 +1,13 @@
 import { MongoClient } from 'mongodb';
 
-export interface UserData {
-    username: string,
-    password: string,
-    bio: string,
+export interface ReserveCell {
+    productTitle: string,
     email: string
+}
+
+export interface ReserveData {
+    username: string,
+    reserveCell: ReserveCell[],
 }
 
 const reserveListModel = () => {
@@ -45,7 +48,7 @@ const reserveListModel = () => {
     }
     
     //add one datacell to document
-    const addData = async (userData: UserData) => {
+    const addData = async (userData: ReserveData) => {
         try {
             const result = await reserveListCollection.insertOne(userData);
             return result;

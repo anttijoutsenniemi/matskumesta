@@ -1,6 +1,6 @@
 import express from 'express';
 import productsModel, { Product, ProductsData } from '../dbModels/products';
-import reserveListModel from '../dbModels/reserveList';
+import reserveListModel from '../dbModels/completedReserveList';
 import userModel from '../dbModels/users';
 
 const productsModule = productsModel();
@@ -155,6 +155,22 @@ apiRoute.post("/addReserver", async (req : express.Request, res : express.Respon
             let reserver : string = req.body.reserver;
             let product : Product = req.body.product;
             let result = await productsModule.addOrEditReserver(username, product, reserver)
+            res.status(200).json(result);
+        }
+        else{
+            res.status(404).json({ "error" : `invalid input` });
+        }
+        
+    } catch (e : any) {
+        res.status(404).json({ "error" : `error fetching: ${e}` });
+    }
+});
+
+apiRoute.post("/fetchOpenReservations", async (req : express.Request, res : express.Response) : Promise<void> => { 
+    try {
+        if(req.body.username){
+            let username : string = req.body.username;
+            let result = await productsModule.fetchProductsAndReservers(username);
             res.status(200).json(result);
         }
         else{

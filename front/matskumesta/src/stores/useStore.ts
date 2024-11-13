@@ -6,6 +6,11 @@ interface Task {
     title: string
 }
 
+export interface Reserver {
+  reserver: string;
+  accepted: boolean;
+}
+
 interface FilledProduct {
   title: string,
   description: string,
@@ -17,6 +22,11 @@ interface FilledProduct {
 export interface UserProductArray {
   username: string,
   products: Product[]
+}
+
+export interface OpenReservation {
+  productName: string,
+  reservers: Reserver[] 
 }
 
 // Define the state and actions
@@ -37,6 +47,7 @@ interface CentralState {
   buyerReservedProducts: UserProductArray[] | null,
   buyerFoundProducts: UserProductArray[] | null,
   foundAiText: string,
+  openReservations: OpenReservation[] | null,
   // count: number
   // isLoading: boolean
   // tasks: Task[]
@@ -58,6 +69,7 @@ interface CentralState {
   setBuyerReservedProducts: (buyerReservedProds: UserProductArray[] | null) => void,
   setBuyerFoundProducts: (buyerFoundProds : UserProductArray[] | null) => void,
   setFoundAiText: (aiText : string) => void,
+  setOpenReservations: (openReserv : OpenReservation[] | null) => void,
   // increment: () => void
   // decrement: () => void
   // addTask: (task: Task) => void
@@ -97,6 +109,7 @@ const useStore = create<CentralState>((set) => ({
   buyerReservedProducts: null,
   buyerFoundProducts: null,
   foundAiText: "",
+  openReservations: null,
   // count: 0,
   // tasks: [],
   // isLoading: false,
@@ -117,7 +130,8 @@ const useStore = create<CentralState>((set) => ({
   setSellerFinalProducts: (sellerFinalProds) => set(() => ({ sellerFinalProducts: sellerFinalProds })),
   setBuyerReservedProducts: (buyerReservedProds) => set(() => ({ buyerReservedProducts: buyerReservedProds })),
   setBuyerFoundProducts: (buyerFoundProds) => set(() => ({ buyerFoundProducts: buyerFoundProds })),
-  setFoundAiText: (aiText) => set(() => ({ foundAiText: aiText })),  
+  setFoundAiText: (aiText) => set(() => ({ foundAiText: aiText })),
+  setOpenReservations: (openReserv) => set(() => ({ openReservations: openReserv })),   
   
   // addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
 

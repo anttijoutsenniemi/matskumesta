@@ -357,6 +357,31 @@ const productsModel = () => {
         }
     }
 
+    //fetches all products that have reservers by sellername and returns prodcut and reserver array
+    const fetchProductsAndReservers = async (username: string) => {
+        try {
+            const result = await productsCollection.findOne({ username: username });
+    
+            if (!result) {
+                console.error('No user found with the given username');
+                return [];
+            }
+    
+            // Extract products with reservers
+            const productsWithReservers = result.products
+                .filter((product : Product) => product.reservers && product.reservers.length > 0)
+                .map((product : Product) => ({
+                    productName: product.title,
+                    reservers: product.reservers
+                }));
+    
+            return productsWithReservers;
+        } catch (error) {
+            console.error('Connection to db failed code 88:');
+            throw error;
+        }
+    };
+
     return {
         fetchData,
         addData,
@@ -366,7 +391,8 @@ const productsModel = () => {
         fetchRandomDocuments,
         fetchProductsByKeywords,
         addOrEditReserver,
-        findProductsByReserver
+        findProductsByReserver,
+        fetchProductsAndReservers
         // Add more functions to export here
     };
 }

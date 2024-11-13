@@ -6,11 +6,12 @@ import ProductGrid, { Product } from '../components/ProductGrid';
 import naama from './../assets/naama.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
-import { fetchSellerProducts } from '../components/ApiFetches';
+import { fetchOpenReservations, fetchSellerProducts } from '../components/ApiFetches';
 import TwoColorBoxes from '../components/ColorBoxes';
+import ReservationsList from '../components/ReservationsList';
 
 const HomePage: React.FC = () => {
-  const { username, modalOpen, setModalOpen, setSelectedProduct, selectedProduct, sellerFinalProducts, setSellerFinalProducts } = useStore();
+  const { username, modalOpen, setModalOpen, setSelectedProduct, selectedProduct, sellerFinalProducts, setSellerFinalProducts, openReservations, setOpenReservations } = useStore();
   const navigate = useNavigate();
   const { logout, token } = useAuth();
   const theme = useTheme();
@@ -30,6 +31,20 @@ const HomePage: React.FC = () => {
           }
         } catch (error) {
           console.error('Error fetching seller products:', error);
+        }
+      }
+      if (!openReservations) {
+        try {
+          let token2 : string = token || 'juu';
+          let reservations = await fetchOpenReservations(username, logout, token2);
+          if(reservations){
+            setOpenReservations(reservations);
+          }
+          else{
+            setOpenReservations(null);
+          }
+        } catch (error) {
+          console.error('Error fetching open reservations');
         }
       }
     };
@@ -98,6 +113,10 @@ const HomePage: React.FC = () => {
     navigate('/addproducts');
   }
 
+  const acceptReservation = () => {
+
+  }
+
   return <div>
           <Typography variant='h4'>Myyjän: {username} mesta</Typography>
           <Typography variant='h5' sx={{marginTop: '20px', marginBottom: '20px'}}>Lisätyt matskuni</Typography>
@@ -123,6 +142,15 @@ const HomePage: React.FC = () => {
               />
             </div>
           <Button variant='contained' color='primary' onClick={addProducts}>Lisää matskuja myyntiin</Button>
+
+          <div>
+            { 
+              (openReservations)
+              ? <ReservationsList productsWithReservers={openReservations} onAccept={acceptReservation}/>
+              : null
+            }
+            
+          </div>
          </div>;
 };
 
