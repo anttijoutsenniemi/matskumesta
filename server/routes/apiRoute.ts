@@ -154,7 +154,25 @@ apiRoute.post("/addReserver", async (req : express.Request, res : express.Respon
             let username : string = req.body.username;
             let reserver : string = req.body.reserver;
             let product : Product = req.body.product;
-            let result = await productsModule.addOrEditReserver(username, product, reserver)
+            let result = await productsModule.addOrEditReserver(username, product, reserver);
+            res.status(200).json(result);
+        }
+        else{
+            res.status(404).json({ "error" : `invalid input` });
+        }
+        
+    } catch (e : any) {
+        res.status(404).json({ "error" : `error fetching: ${e}` });
+    }
+});
+
+apiRoute.post("/acceptReservation", async (req : express.Request, res : express.Response) : Promise<void> => { 
+    try {
+        if(req.body.username && req.body.reserver && req.body.product){
+            let username : string = req.body.username;
+            let reserver : string = req.body.reserver;
+            let product : Product = req.body.product;
+            let result = await productsModule.acceptReserver(username, product, reserver);
             res.status(200).json(result);
         }
         else{

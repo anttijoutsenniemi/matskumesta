@@ -10,9 +10,6 @@ interface Props {
 const ReservationsList: React.FC<Props> = ({ productsWithReservers, onAccept }) => {
     return (
         <div>
-            <Typography variant='h5' sx={{ marginTop: '20px', marginBottom: '20px' }}>
-                Avoimet varaukset
-            </Typography>
             {productsWithReservers.map((product) => (
                 <Paper key={product.productName} sx={{ padding: '20px', marginBottom: '20px' }}>
                     <Typography variant='h6'>{product.productName}</Typography>

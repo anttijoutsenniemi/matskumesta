@@ -13,7 +13,7 @@ const ReservationAccepted: React.FC<ContactProps> = (props) => {
   const fetchContactInfo = async () => {
     setLoading(true);
     try {
-        let email : string = props.fetchEmail();
+        let email : string = await props.fetchEmail();
         setContactInfo(email);
     } catch (error) {
       console.error('Error fetching contact info', error);

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import useStore from '../stores/useStore';
+import useStore, { OpenReservation } from '../stores/useStore';
 import { Button, Typography, useTheme } from '@mui/material';
 import Modal from '../components/Modal';
 import ProductGrid, { Product } from '../components/ProductGrid';
 import naama from './../assets/naama.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
-import { fetchOpenReservations, fetchSellerProducts } from '../components/ApiFetches';
+import { fetchOpenReservations, fetchSellerProducts, acceptReservation } from '../components/ApiFetches';
 import TwoColorBoxes from '../components/ColorBoxes';
 import ReservationsList from '../components/ReservationsList';
 
@@ -113,8 +113,39 @@ const HomePage: React.FC = () => {
     navigate('/addproducts');
   }
 
-  const acceptReservation = () => {
+  const acceptReservationFront = async (productName : string, reserver : string) => {
+    let token2 : string = token || 'juu';
+    let productToEdit : any = sellerFinalProducts?.find(product => product.title === productName);
+    let acceptAttempt = await acceptReservation(username, productToEdit, reserver, logout, token2);
+    if(acceptAttempt.ok){ //should return null if user has no products
+      if(openReservations){
+        // Make a shallow copy of the openReservations
+        let updatedReservations = [...openReservations];
 
+        // Find the product and update the reserver's accepted status
+        const productIndex = updatedReservations.findIndex(product => product.productName === productName);
+        if (productIndex !== -1) {
+            // Deep copy of the reservers array to safely modify it
+            let updatedReservers = [...updatedReservations[productIndex].reservers];
+            const reserverIndex = updatedReservers.findIndex(res => res.reserver === reserver);
+            if (reserverIndex !== -1) {
+                updatedReservers[reserverIndex] = {...updatedReservers[reserverIndex], accepted: true};
+            }
+
+            // Set the updated reservers back to the product
+            updatedReservations[productIndex] = {
+                ...updatedReservations[productIndex],
+                reservers: updatedReservers
+            };
+        }
+
+        // Set the updated reservations back to the state
+        setOpenReservations(updatedReservations);
+      }
+    }
+    else{
+      alert('Acception failed! try again later');
+    }
   }
 
   return <div>
@@ -144,10 +175,13 @@ const HomePage: React.FC = () => {
           <Button variant='contained' color='primary' onClick={addProducts}>Lisää matskuja myyntiin</Button>
 
           <div>
+            <Typography variant='h5' sx={{ marginTop: '20px', marginBottom: '20px' }}>
+                Avoimet varaukset
+            </Typography>
             { 
               (openReservations)
-              ? <ReservationsList productsWithReservers={openReservations} onAccept={acceptReservation}/>
-              : null
+              ? <ReservationsList productsWithReservers={openReservations} onAccept={acceptReservationFront}/>
+              : <Typography variant='subtitle1'>Ei avoimia varauksia</Typography>
             }
             
           </div>

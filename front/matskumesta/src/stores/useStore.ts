@@ -48,6 +48,7 @@ interface CentralState {
   buyerFoundProducts: UserProductArray[] | null,
   foundAiText: string,
   openReservations: OpenReservation[] | null,
+  uniqueSellerName: string,
   // count: number
   // isLoading: boolean
   // tasks: Task[]
@@ -70,6 +71,7 @@ interface CentralState {
   setBuyerFoundProducts: (buyerFoundProds : UserProductArray[] | null) => void,
   setFoundAiText: (aiText : string) => void,
   setOpenReservations: (openReserv : OpenReservation[] | null) => void,
+  setUniqueSellerName: (sellerName: string) => void,
   // increment: () => void
   // decrement: () => void
   // addTask: (task: Task) => void
@@ -110,6 +112,7 @@ const useStore = create<CentralState>((set) => ({
   buyerFoundProducts: null,
   foundAiText: "",
   openReservations: null,
+  uniqueSellerName: '',
   // count: 0,
   // tasks: [],
   // isLoading: false,
@@ -131,7 +134,8 @@ const useStore = create<CentralState>((set) => ({
   setBuyerReservedProducts: (buyerReservedProds) => set(() => ({ buyerReservedProducts: buyerReservedProds })),
   setBuyerFoundProducts: (buyerFoundProds) => set(() => ({ buyerFoundProducts: buyerFoundProds })),
   setFoundAiText: (aiText) => set(() => ({ foundAiText: aiText })),
-  setOpenReservations: (openReserv) => set(() => ({ openReservations: openReserv })),   
+  setOpenReservations: (openReserv) => set(() => ({ openReservations: openReserv })),
+  setUniqueSellerName: (sellerName) => set(() => ({ uniqueSellerName: sellerName })),   
   
   // addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
 

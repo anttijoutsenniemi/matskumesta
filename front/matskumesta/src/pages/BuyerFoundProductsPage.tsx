@@ -7,7 +7,7 @@ import ProductGrid, { Product } from '../components/ProductGrid';
 import Modal from '../components/Modal';
 
 const BuyerFoundProductsPage: React.FC = () => {
-  const { foundAiText, buyerFoundProducts, modalOpen, setModalOpen, selectedProduct, setSelectedProduct } = useStore();
+  const { foundAiText, buyerFoundProducts, modalOpen, setModalOpen, selectedProduct, setSelectedProduct, setUniqueSellerName, uniqueSellerName } = useStore();
   const navigate = useNavigate();
 
   const openModal = () => {
@@ -32,6 +32,7 @@ const BuyerFoundProductsPage: React.FC = () => {
       if (newUser && identifier >= 0 && identifier < newUser.products.length) {
         let newProduct : Product = newUser.products[identifier];
         setSelectedProduct(newProduct);
+        setUniqueSellerName(user);
         openModal();
       }
 
@@ -69,7 +70,7 @@ const BuyerFoundProductsPage: React.FC = () => {
                 <div key={index} style={{marginBottom: '10px', marginTop: '10px'}}>
                     <Typography sx={{marginBottom: '20px'}} variant='subtitle1'>Myyjän: {userAndProducts.username} matskut</Typography>
                     <ProductGrid products={userAndProducts.products} user={userAndProducts.username} onProductClick={handleProductClick}/>
-                    <Modal title='Matskun tiedot' product={selectedProduct} isOpen={modalOpen} sellername={userAndProducts.username} onClose={closeModal}/>
+                    <Modal title='Matskun tiedot' product={selectedProduct} isOpen={modalOpen} sellername={uniqueSellerName} onClose={closeModal}/>
                 </div>
               ))
 

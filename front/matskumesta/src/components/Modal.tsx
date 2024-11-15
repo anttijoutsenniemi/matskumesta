@@ -67,7 +67,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
       setLoading(false);
       setErrorMessage('');
       let newProducts = dbProcess.document.products;
-      setSellerFinalProducts(newProducts);
       alert('Tuote varattu! Saat myyjän yhteystiedot näkyviin kun varaus on hyväksytty.');
     }
     else{
@@ -79,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <header className="modal-header">
+        <header className="modal-header" style={{marginBottom: '10px'}}>
           <Typography variant='h4'>{product.title}</Typography>
           <button onClick={() => closeModal()} className="close-button">✖</button>
         </header>
@@ -107,7 +106,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
             <>
             {            
               product.useCases?.map((usecase, index) => (
-              <div key={index} style={{backgroundColor: 'grey', padding: '5px', borderRadius: '10px'}}>
+              <div key={index} style={{backgroundColor: 'grey', padding: '5px', borderRadius: '10px', marginBottom: '5px', marginTop: '5px'}}>
                 <Typography variant='body1' sx={{marginBottom: '10px'}}>{usecase}</Typography>
               </div>
             ))}

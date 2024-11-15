@@ -161,6 +161,7 @@ const productsModel = () => {
     // Function to add or edit a reserveuser in the reservers array of a product
     const addOrEditReserver = async (username: string, productToEdit: Product, reserveuser: string) => {
         try {
+
             // Find the document with the matching username
             const existingDocument = await productsCollection.findOne({ username });
 
@@ -171,17 +172,10 @@ const productsModel = () => {
             // Find the product to update within the products array
             const updatedProducts = existingDocument.products.map((product: Product) => {
                 if (
-                    product.id === productToEdit.id &&
                     product.title === productToEdit.title &&
-                    product.description === productToEdit.description &&
-                    product.price === productToEdit.price &&
-                    product.amount === productToEdit.amount &&
-                    product.weight === productToEdit.weight &&
-                    product.quality === productToEdit.quality &&
-                    product.location === productToEdit.location &&
-                    product.packaging === productToEdit.packaging &&
-                    product.availability === productToEdit.availability
+                    product.description === productToEdit.description
                 ) {
+                    console.log("product found");
                     // Check if the reservers array exists, if not, initialize it
                     if (!product.reservers) {
                         product.reservers = [];
@@ -215,6 +209,55 @@ const productsModel = () => {
             throw error;
         }
     };
+
+    // Function to set a specific reserver's accepted value to true
+    const acceptReserver = async (username : string, productToEdit : Product, reserverToAccept : string) => {
+        try {
+            // Find the document with the matching username
+            const existingDocument = await productsCollection.findOne({ username });
+
+            if (!existingDocument) {
+                return { error: 'Document not found for the given username' };
+            }
+
+            // Map through products to find and update the specific product
+            const updatedProducts = existingDocument.products.map((product : Product) => {
+                // Check if this is the product we want to update by comparing properties
+                if (
+                    product.title === productToEdit.title &&
+                    product.description === productToEdit.description
+                ) {
+                    console.log("product found");
+
+                    // Check if the reservers array exists
+                    if (product.reservers) {
+                        // Find and update the specific reserver's accepted value
+                        product.reservers = product.reservers.map((reserverObj) => {
+                            if (reserverObj.reserver === reserverToAccept) {
+                                return { ...reserverObj, accepted: true };
+                            }
+                            return reserverObj;
+                        });
+                    }
+                }
+                return product;
+            });
+
+            // Update the document with the modified products array
+            await productsCollection.updateOne(
+                { username },
+                { $set: { products: updatedProducts } }
+            );
+
+            // Fetch the updated document and return it
+            const updatedDocument = await productsCollection.findOne({ username });
+            return { ok: 'Reserver accepted successfully', document: updatedDocument };
+        } catch (error) {
+            console.error('Failed to accept reserver with status code 103', error);
+            throw error;
+        }
+    };
+
 
     // Function to find all products where a given reserveuser is found
     const findProductsByReserver = async (reserveuser: string) => {
@@ -392,7 +435,8 @@ const productsModel = () => {
         fetchProductsByKeywords,
         addOrEditReserver,
         findProductsByReserver,
-        fetchProductsAndReservers
+        fetchProductsAndReservers,
+        acceptReserver
         // Add more functions to export here
     };
 }
