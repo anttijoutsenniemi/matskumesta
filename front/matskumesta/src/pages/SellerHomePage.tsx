@@ -4,6 +4,8 @@ import { Button, Typography, useTheme } from '@mui/material';
 import Modal from '../components/Modal';
 import ProductGrid, { Product } from '../components/ProductGrid';
 import naama from './../assets/naama.png';
+import salama from './../assets/salama.png';
+import styx from './../assets/styx.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 import { fetchOpenReservations, fetchSellerProducts, acceptReservation } from '../components/ApiFetches';
@@ -61,7 +63,7 @@ const HomePage: React.FC = () => {
       id: 1,
       title: 'Product 1',
       description: 'A high-quality green product.',
-      image: 'path/to/image1.jpg',
+      image: naama,
       color: 'green',
       amount: '50 units',
       weight: '1.5 kg',
@@ -72,9 +74,9 @@ const HomePage: React.FC = () => {
     },
     {
       id: 2,
-      title: 'Product 2',
+      title: 'Product 2 juu',
       description: 'A vibrant yellow product.',
-      image: 'path/to/image2.jpg',
+      image: salama,
       color: 'yellow',
       amount: '30 units',
       weight: '1.2 kg',
@@ -85,9 +87,9 @@ const HomePage: React.FC = () => {
     },
     {
       id: 3,
-      title: 'Product 3',
+      title: 'Product 3 juujaajooh pröööööööööt',
       description: 'A sturdy green product.',
-      image: 'path/to/image3.jpg',
+      image: styx,
       color: 'green',
       amount: '40 units',
       weight: '2.0 kg',
@@ -149,7 +151,7 @@ const HomePage: React.FC = () => {
   }
 
   return <div>
-          <Typography variant='h4'>Myyjän: {username} mesta</Typography>
+          <Typography variant='h4'>Myyjä {username}</Typography>
           <Typography variant='h5' sx={{marginTop: '20px', marginBottom: '20px'}}>Lisätyt matskuni</Typography>
             <div className='matskut-container' style={{marginTop: '10px', marginBottom: '10px'}}>
               {

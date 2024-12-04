@@ -95,14 +95,14 @@ const BuyerHomePage: React.FC = () => {
   }
 
   return <div>
-          <Typography variant='h4'>Ostajan: {username} mesta</Typography>
+          <Typography variant='h4'>Ostaja {username}</Typography>
           <Typography variant='h5' sx={{marginTop: '20px', marginBottom: '20px'}}>Varatut matskuni</Typography>
             <div className='matskut-container' style={{marginTop: '10px', marginBottom: '10px'}}>
               {
                 (buyerReservedProducts)
                 ?  buyerReservedProducts.map((userAndProducts, index) => (
                     <div key={index} style={{marginBottom: '10px', marginTop: '10px'}}>
-                      <Typography sx={{marginBottom: '20px'}} variant='subtitle1'>Myyjän: {userAndProducts.username} matskut</Typography>
+                      <Typography sx={{marginBottom: '20px'}} variant='subtitle1'>Myyjä {userAndProducts.username}</Typography>
                       <ProductGrid products={userAndProducts.products} user={userAndProducts.username} onProductClick={handleProductClick}/>
                       <Modal title='Matskun tiedot' product={selectedProduct} isOpen={modalOpen} accepted sellername={userAndProducts.username} onClose={closeModal}/>
                     </div>
@@ -123,7 +123,6 @@ const BuyerHomePage: React.FC = () => {
               />
             </div>
           <Button sx={{margin: "5px"}} variant='contained' color='primary' onClick={findProducts}>Etsi matskuja</Button>
-          <Button sx={{margin: "5px"}} variant='outlined' color='primary' onClick={fetchReservedProducts}>Päivitä</Button>
          </div>;
 };
 

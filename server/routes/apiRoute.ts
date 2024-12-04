@@ -9,15 +9,15 @@ const userModule = userModel();
 
 const apiRoute : express.Router = express.Router();
 
-apiRoute.get("/", async (req : express.Request, res : express.Response) : Promise<void> => { 
-    try {
+// apiRoute.get("/", async (req : express.Request, res : express.Response) : Promise<void> => { 
+//     try {
 
-        res.status(200).json({ "message" : "apiroute initialized"});
+//         res.status(200).json({ "message" : "apiroute initialized"});
 
-    } catch (e : any) {
-        res.status(404).json({ "error" : `error fetching: ${e}` });
-    }
-});
+//     } catch (e : any) {
+//         res.status(404).json({ "error" : `error fetching: ${e}` });
+//     }
+// });
 
 apiRoute.post("/fetchOneEmail", async (req : express.Request, res : express.Response) : Promise<void> => { 
     try {

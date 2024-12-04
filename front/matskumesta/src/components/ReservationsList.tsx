@@ -17,7 +17,7 @@ const ReservationsList: React.FC<Props> = ({ productsWithReservers, onAccept }) 
                         {product.reservers.map((reserver, index) => (
                             <Box key={index} sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                                 <Typography sx={{ marginRight: '10px' }}>
-                                    {reserver.reserver} - {reserver.accepted ? 'Accepted' : 'Pending'}
+                                    {reserver.reserver} - {reserver.accepted ? 'Hyväksytty' : 'Odottaa'}
                                 </Typography>
                                 {!reserver.accepted && (
                                     <Button
@@ -25,7 +25,7 @@ const ReservationsList: React.FC<Props> = ({ productsWithReservers, onAccept }) 
                                         color='primary'
                                         onClick={() => onAccept(product.productName, reserver.reserver)}
                                     >
-                                        Accept
+                                        Hyväksy
                                     </Button>
                                 )}
                             </Box>

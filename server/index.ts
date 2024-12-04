@@ -8,6 +8,7 @@ import aiRoute from "./routes/aiRoute";
 import authRoute from "./routes/authRoute";
 import expressBasicAuth from "express-basic-auth";
 import bodyParser from "body-parser";
+import path from "path";
 import jwt from "jsonwebtoken";
 
 const app : Application = express();
@@ -71,7 +72,11 @@ app.use(express.json({limit: '50mb'}));
 
 app.use(express.static('public_front'));
 
-//some routes double authenticated
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public_front', 'index.html'));
+});
+
+//some routes double authenticated = double auth disabled since auth heaDERS get overwritten with the other credentials
 app.use("/apiroute", /*authenticate,*/ authenticateToken, apiRoute);
 app.use("/airoute", /*authenticate,*/ authenticateToken, aiRoute);
 app.use("/auth", authenticate, authRoute);

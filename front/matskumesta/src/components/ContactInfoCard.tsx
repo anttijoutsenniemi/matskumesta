@@ -25,13 +25,13 @@ const ReservationAccepted: React.FC<ContactProps> = (props) => {
   return (
     <div className="reservation-container">
       <div className="reservation-message">
-        Myyjä on hyväksynyt varauksesi!
+        {contactInfo ? ("Ole yhteydessä myyjään sopiaksesi kaupoista!") : ("Myyjä on hyväksynyt varauksesi!")}
       </div>
       {contactInfo ? (
         <div className="contact-info">{contactInfo}</div>
       ) : (
         <button className="contact-button" onClick={fetchContactInfo}>
-          {loading ? 'Loading...' : 'Näytä yhteystiedot'}
+          {loading ? 'Lataa...' : 'Näytä yhteystiedot'}
         </button>
       )}
     </div>

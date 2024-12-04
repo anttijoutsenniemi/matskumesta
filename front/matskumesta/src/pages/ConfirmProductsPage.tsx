@@ -76,7 +76,7 @@ const ConfirmProductsPage: React.FC = () => {
               <ProductGrid products={manyFilledProducts} onProductClick={handleProductClick}/>
               <EditableModal product={selectedProduct} isOpen={modalOpen} onClose={closeModal}/>
               <Button variant="contained" sx={{marginBottom: '10px', marginTop: '10px'}} color="primary" onClick={confirmProducts}>
-                Vahvista & lisää tuotteet valikoimaasi
+                Lisää tuotteet valikoimaasi
               </Button>
         </div>
 };

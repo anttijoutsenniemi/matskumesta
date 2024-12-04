@@ -68,7 +68,7 @@ const BuyerFoundProductsPage: React.FC = () => {
             {(buyerFoundProducts)
               ? buyerFoundProducts.map((userAndProducts, index) => (
                 <div key={index} style={{marginBottom: '10px', marginTop: '10px'}}>
-                    <Typography sx={{marginBottom: '20px'}} variant='subtitle1'>Myyjän: {userAndProducts.username} matskut</Typography>
+                    <Typography sx={{marginBottom: '20px'}} variant='subtitle1'>Myyjä {userAndProducts.username}</Typography>
                     <ProductGrid products={userAndProducts.products} user={userAndProducts.username} onProductClick={handleProductClick}/>
                     <Modal title='Matskun tiedot' product={selectedProduct} isOpen={modalOpen} sellername={uniqueSellerName} onClose={closeModal}/>
                 </div>

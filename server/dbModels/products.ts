@@ -130,16 +130,8 @@ const productsModel = () => {
         const updatedProducts = existingDocument.products.filter((product : Product) => {
             // Check all fields to match the product exactly
             return !(
-            product.id === productToDelete.id &&
             product.title === productToDelete.title &&
-            product.description === productToDelete.description &&
-            product.price === productToDelete.price &&
-            product.amount === productToDelete.amount &&
-            product.weight === productToDelete.weight &&
-            product.quality === productToDelete.quality &&
-            product.location === productToDelete.location &&
-            product.packaging === productToDelete.packaging &&
-            product.availability === productToDelete.availability
+            product.description === productToDelete.description
             );
         });
     

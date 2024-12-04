@@ -6,6 +6,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useStore from '../stores/useStore';
 import { reuleaux } from 'ldrs';
 import type {} from 'ldrs';
+import { useAuth } from '../context/authContext';
 reuleaux.register();
 
 const MainContainer = styled('div')(({ theme }) => ({
@@ -28,6 +29,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const { drawerOpen, setDrawerOpen, isSeller, setIsSeller, loadingMessage, loading, errorMessage} = useStore();
   const location = useLocation();
+  const { logout } = useAuth();
 
   // Define subtitles for each route
   const getSubtitle = (path: string) => {
@@ -53,6 +55,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const changeSellerStatus = (seller : boolean) => {
     setIsSeller(seller);
+    navigate('/home');
   }
 
   return (
@@ -86,7 +89,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <Link to={'/home'}><p>Siirry etusivulle</p></Link>
           <Link to={'/login'}><p>Siirry kirjautumissivulle</p></Link>
           <Link to={'/signup'}><p>Siirry rekisteröitymissivulle</p></Link>
-
+          <Button variant='contained' color='secondary' onClick={()=> logout()}>Kirjaudu ulos</Button>
           
         </Box>
       </Drawer>
