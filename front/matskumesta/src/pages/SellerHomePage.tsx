@@ -152,6 +152,7 @@ const HomePage: React.FC = () => {
 
   return <div>
           <Typography variant='h4'>Myyjä {username}</Typography>
+          <Button variant='contained' color='primary' onClick={addProducts}>Lisää matskuja myyntiin</Button>
           <Typography variant='h5' sx={{marginTop: '20px', marginBottom: '20px'}}>Lisätyt matskuni</Typography>
             <div className='matskut-container' style={{marginTop: '10px', marginBottom: '10px'}}>
               {
@@ -174,7 +175,6 @@ const HomePage: React.FC = () => {
                 box2Description='Varaamaton tuote'
               />
             </div>
-          <Button variant='contained' color='primary' onClick={addProducts}>Lisää matskuja myyntiin</Button>
 
           <div>
             <Typography variant='h5' sx={{ marginTop: '20px', marginBottom: '20px' }}>

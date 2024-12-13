@@ -20,7 +20,7 @@ const AddProductsPage: React.FC = () => {
 
   //in this function we first take the input from user and check if any of its text matches our categories or keywords, if it does we dont need to query AI
   const receiveInputAndSearch = async (input : string) => {
-    setLoadingMessage("Hetkinen... analysoin tekstiäsi ja etsin sopivia matskuja");
+    setLoadingMessage("Hetkinen...");
     setLoading(true);
     setErrorMessage("");
     const wordArray : string[] = categories;
@@ -132,6 +132,59 @@ const AddProductsPage: React.FC = () => {
     }
   }
 
+  const receiveInputAndSearchOnlyAi = async (input: string) => {
+    setLoadingMessage("Hetkinen...");
+    setLoading(true);
+    setErrorMessage("");
+
+    /* AI QUERY BLOCK */
+
+    let token2: string = token || "juu";
+    let aiJson = await analyzeUserText(input, logout, token2);
+    if (aiJson) {
+        if (typeof aiJson === 'string') {
+            aiJson = JSON.parse(aiJson);
+        }
+        if (aiJson.noCategoryMatches) {
+            setFoundAiText("Valikoimasta ei tällä kertaa löytynyt täysin tarpeisiisi sopivia matskuja, tässä kuitenkin muutamat satunnaiset matskut: ");
+            // Fetch and display random products
+            let userProductArray = await fetchRandomProducts(logout, token2);
+            setLoading(false);
+            setBuyerFoundProducts(userProductArray);
+            navigate('/buyerfoundproducts');
+        } else {
+            let categories: string[] = aiJson.categories;
+            let userProductArray = await fetchMatchingProdsByCategory(categories, logout, token2);
+
+            if (userProductArray.length === 0) { // No category matches
+                let keywordCheckUserProductArray = await fetchMatchingProdsByKeywords(aiJson.keywords, logout, token2);
+
+                if (keywordCheckUserProductArray.length === 0) { // No keyword matches
+                    setFoundAiText("Valikoimasta ei tällä kertaa löytynyt täysin tarpeisiisi sopivia matskuja, tässä kuitenkin muutamat satunnaiset matskut: ");
+                    // Fetch and display random products
+                    let userProductArray = await fetchRandomProducts(logout, token2);
+                    setLoading(false);
+                    setBuyerFoundProducts(userProductArray);
+                    navigate('/buyerfoundproducts');
+                } else { // Keyword matches found
+                    setLoading(false);
+                    setFoundAiText("Löysin valikoimasta nämä matskut jotka saattaisivat sopia tarpeisiisi: ");
+                    setBuyerFoundProducts(keywordCheckUserProductArray);
+                    navigate('/buyerfoundproducts');
+                }
+            } else { // Category matches found
+                setLoading(false);
+                setFoundAiText("Löysin valikoimasta nämä matskut jotka saattaisivat sopia tarpeisiisi: ");
+                setBuyerFoundProducts(userProductArray);
+                navigate('/buyerfoundproducts');
+            }
+        }
+    } else {
+        setErrorMessage('Error occurred fetching AI response, the service might be down. Please try again later.');
+    }
+};
+
+
   return  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             {/* Header Container */}
             <div
@@ -155,10 +208,10 @@ const AddProductsPage: React.FC = () => {
                 Etsi matskuja
             </Typography>
             <Typography variant="h6" gutterBottom sx={{marginBottom: '20px'}}>
-                Alla olevaan tekstilaatikkoon voit kuvailla omin sanoin mitä olet etsimässä. Voit kirjoittaa itse, valita ehdotuksista tai molemmat!
+              Kerro mitä etsit tai valitse valmiista vaihtoehdoista.
             </Typography>
             <div className='input-box'>
-              <InputField receiveInput={receiveInputAndSearch}/>
+              <InputField receiveInput={receiveInputAndSearchOnlyAi}/>
             </div>
         </div>;
 };

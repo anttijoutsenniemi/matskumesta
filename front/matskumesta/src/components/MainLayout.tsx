@@ -34,16 +34,16 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Define subtitles for each route
   const getSubtitle = (path: string) => {
     switch (path) {
-      case '/':
-        return 'Tervetuloa';
-      case '/login':
-        return 'Kirjaudu';
-      case '/signup':
-        return 'Rekisteröidy';
-      case '/home':
-        return 'Etusivu';
+      // case '/':
+      //   return 'Tervetuloa';
+      // case '/login':
+      //   return 'Kirjaudu';
+      // case '/signup':
+      //   return 'Rekisteröidy';
+      // case '/home':
+      //   return 'Etusivu';
       default:
-        return '';
+        return 'MatskuMesta';
     }
   };
 

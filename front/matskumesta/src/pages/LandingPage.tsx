@@ -22,10 +22,10 @@ const LandingPage: React.FC = () => {
     }
   return <div>
   <Typography variant="h4" gutterBottom>
-    Tervetuloa Matskumestaan, täällä materiaalit liikkuvat helposti.
+    Tervetuloa Matskumestaan!
   </Typography>
   <Typography variant="body1" gutterBottom>
-    Kirjaudu sisään tai luo käyttäjä aloittaaksesi kaupankäynnin.
+    Täällä materiaalit vaihtavat omistajaa kätevästi.
   </Typography>
   <Box className='button-container'>
     <Button variant="contained" color="primary" onClick={()=> goToLogin()}>

@@ -71,7 +71,7 @@ const ConfirmProductsPage: React.FC = () => {
               <Typography variant="body1">Takaisin</Typography>
               </IconButton>
             </div>
-            <Typography variant='h4'>Tulkitsin kuvastasi seuraavat tuotetiedot: </Typography>
+            <Typography variant='h4'>Tarkista tuotetiedot: </Typography>
             <Typography variant='body1' sx={{marginBottom: '10px', marginTop: '10px'}}>Klikkaa tuotekortteja muokkaaksesi</Typography>
               <ProductGrid products={manyFilledProducts} onProductClick={handleProductClick}/>
               <EditableModal product={selectedProduct} isOpen={modalOpen} onClose={closeModal}/>

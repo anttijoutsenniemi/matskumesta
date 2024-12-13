@@ -117,6 +117,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
           </div>
 
           <div className="modal-field">
+            <Typography variant="h6" sx={{marginBottom: '10px'}}>Hinta</Typography>
+            <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.price || 'Ei määritelty'}</Typography>
+            <hr className="divider" />
+          </div>
+
+          <div className="modal-field">
             <Typography variant="h6" sx={{marginBottom: '10px'}}>Määrä</Typography>
             <Typography variant='body1' sx={{marginBottom: '10px'}}>{product.amount || 'Ei määritelty'}</Typography>
             <hr className="divider" />
