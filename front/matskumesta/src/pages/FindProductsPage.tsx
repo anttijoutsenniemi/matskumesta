@@ -182,7 +182,98 @@ const AddProductsPage: React.FC = () => {
     } else {
         setErrorMessage('Error occurred fetching AI response, the service might be down. Please try again later.');
     }
-};
+  };
+
+  const receiveInputAndSearchAllMethods = async (input: string) => {
+      setLoadingMessage("Hetkinen...");
+      setLoading(true);
+      setErrorMessage("");
+  
+      const uniqueProducts = new Map(); // To track products by title and avoid duplicates
+  
+      const addUniqueProducts = (products : any) => {
+          products.forEach((product : any) => {
+              if (!uniqueProducts.has(product.title)) {
+                  uniqueProducts.set(product.title, product);
+              }
+          });
+      };
+  
+      let token2: string = token || "juu";
+  
+      /* CATEGORY SEARCH */
+      const wordArray: string[] = categories;
+      const findMatchingWords = (input: string): string[] => {
+          return wordArray.filter((word) => input.toLowerCase().includes(word.toLowerCase()));
+      };
+  
+      const categoryMatches = findMatchingWords(input);
+      if (categoryMatches.length > 0) {
+          let categoryProducts = await fetchMatchingProdsByCategory(categoryMatches, logout, token2);
+          addUniqueProducts(categoryProducts);
+      }
+  
+      /* KEYWORD SEARCH */
+      const stopWords = ["ja", "on", "tai", "että", "niin", "kun", "sekä", "kuin"];
+      const extractKeywords = (userText: string): string[] => {
+          const words = userText
+              .toLowerCase()
+              .split(/\s+/)
+              .map(word => word.replace(/[^a-zäöå0-9]+/gi, ''))
+              .filter(word => word.length >= 3 && !stopWords.includes(word));
+  
+          return Array.from(new Set(words)); // Unique keywords
+      };
+  
+      const programmicalKeywords: string[] = extractKeywords(input);
+      if (programmicalKeywords.length > 0) {
+          let keywordProducts = await fetchMatchingProdsByKeywords(programmicalKeywords, logout, token2);
+          addUniqueProducts(keywordProducts);
+      }
+  
+      /* AI SEARCH */
+      let aiJson = await analyzeUserText(input, logout, token2);
+      if (aiJson) {
+          if (typeof aiJson === 'string') {
+              aiJson = JSON.parse(aiJson);
+          }
+  
+          if (aiJson.noCategoryMatches) {
+              setFoundAiText("Valikoimasta ei tällä kertaa löytynyt täysin tarpeisiisi sopivia matskuja, tässä kuitenkin muutamat satunnaiset matskut: ");
+              let randomProducts = await fetchRandomProducts(logout, token2);
+              addUniqueProducts(randomProducts);
+          } else {
+              let aiCategories: string[] = aiJson.categories;
+              if (aiCategories.length > 0) {
+                  let aiCategoryProducts = await fetchMatchingProdsByCategory(aiCategories, logout, token2);
+                  addUniqueProducts(aiCategoryProducts);
+              }
+  
+              let aiKeywords: string[] = aiJson.keywords;
+              if (aiKeywords.length > 0) {
+                  let aiKeywordProducts = await fetchMatchingProdsByKeywords(aiKeywords, logout, token2);
+                  addUniqueProducts(aiKeywordProducts);
+              }
+          }
+      } else {
+          setErrorMessage('Error occurred fetching AI response, the service might be down. Please try again later.');
+      }
+  
+      /* FINALIZE RESULTS */
+      const finalProducts = Array.from(uniqueProducts.values());
+      if (finalProducts.length === 0) {
+          setFoundAiText("Valikoimasta ei tällä kertaa löytynyt täysin tarpeisiisi sopivia matskuja, tässä kuitenkin muutamat satunnaiset matskut: ");
+          let randomProducts = await fetchRandomProducts(logout, token2);
+          setBuyerFoundProducts(randomProducts);
+      } else {
+          setFoundAiText("Löysin valikoimasta nämä matskut jotka saattaisivat sopia tarpeisiisi: ");
+          setBuyerFoundProducts(finalProducts);
+      }
+  
+      setLoading(false);
+      navigate('/buyerfoundproducts');
+  
+  }
 
 
   return  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
