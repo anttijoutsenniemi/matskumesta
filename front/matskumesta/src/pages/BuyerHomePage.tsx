@@ -95,7 +95,7 @@ const BuyerHomePage: React.FC = () => {
   }
 
   return <div>
-          <Typography variant='h4'>Ostaja {username}</Typography>
+          <Typography variant='h4' style={{marginBottom: '20px'}}>Ostaja {username}</Typography>
           <Button sx={{margin: "5px"}} variant='contained' color='primary' onClick={findProducts}>Etsi matskuja</Button>
           <Typography variant='h5' sx={{marginTop: '20px', marginBottom: '20px'}}>Varatut matskuni</Typography>
             <div className='matskut-container' style={{marginTop: '10px', marginBottom: '10px'}}>
