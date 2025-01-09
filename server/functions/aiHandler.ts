@@ -159,11 +159,13 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
       let contentArray : object[] = [
         {
             type: "text",
-            text: dedent`Can you help me find which of the given categories fit the needs described in this user typed text: ${userText} (end of user text).
-            I will give you a JSON with the categories and other keys. Set noCategoryMatches -key to true if none of the categories fit. In explanation -key
-            write in finnish your reasoning as to why chosen categories fit. In categories -key leave the matching categories and remove rest, you can choose
-            multiple if they match. In keywords -key push to the array of strings all important words from user text the user might be searching for. 
-            Fill this JSON and return it only: ${categories}`
+            text: dedent`Voisitko auttaa minua selvittämään, mitkä annetuista kategorioista sopivat käyttäjän kirjoittamassa tekstissä kuvattuihin tarpeisiin: ${userText} (käyttäjän teksti päättyy).  
+            Annan sinulle JSON-tiedoston, joka sisältää kategoriat ja muita avaimia.  
+            Aseta "noCategoryMatches" -avain arvoon true, jos mikään kategorioista ei sovi.  
+            "explanation" -avaimen kohdalle kirjoita suomeksi perustelusi siitä, miksi valitsemasi kategoriat sopivat.  
+            "categories" -avaimen kohdalla jätä vain ne kategoriat, jotka sopivat, ja poista muut. Voit valita useita, jos ne sopivat.  
+            "keywords" -avaimen kohdalle lisää kaikki tärkeät sanat käyttäjän tekstistä merkkijonotaulukkoon, joita käyttäjä saattaisi etsiä.  
+            Täytä tämä JSON-tiedosto ja palauta vain se: ${categories}`
         }
       ]
       

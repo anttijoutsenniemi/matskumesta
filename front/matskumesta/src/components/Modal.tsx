@@ -99,7 +99,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
             <hr className="divider" />
           </div>
 
-          <div className="modal-field">
+          {/* <div className="modal-field">
             <Typography variant="h6" sx={{marginBottom: '10px'}}>Käyttökohteet</Typography>
             {(product.useCases)
             ?
@@ -114,7 +114,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, product, sellerna
             : <Typography variant='body1' sx={{marginBottom: '10px'}}>Ei määritelty</Typography>
             }
             <hr className="divider" />
-          </div>
+          </div> */}
 
           <div className="modal-field">
             <Typography variant="h6" sx={{marginBottom: '10px'}}>Hinta</Typography>
