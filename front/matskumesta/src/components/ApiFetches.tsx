@@ -195,6 +195,7 @@ export const fetchRandomProducts = async (logout: any, token?: string) => {
   try {
     const response = await axios.post('/apiroute/fetchRandomProducts',  
     // const response = await axios.post('http://localhost:8000/apiroute/fetchRandomProducts',
+      { message: "mo" }, //post request has to have body or auth headers turn in to body in axios
       {
         headers: {
           // Include the JWT token in the Authorization header if provided

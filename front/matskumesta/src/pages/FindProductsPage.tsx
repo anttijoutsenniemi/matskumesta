@@ -302,7 +302,7 @@ const AddProductsPage: React.FC = () => {
               Kerro mitä etsit tai valitse valmiista vaihtoehdoista.
             </Typography>
             <div className='input-box'>
-              <InputField receiveInput={receiveInputAndSearchOnlyAi}/>
+              <InputField receiveInput={receiveInputAndSearchAllMethods}/>
             </div>
         </div>;
 };

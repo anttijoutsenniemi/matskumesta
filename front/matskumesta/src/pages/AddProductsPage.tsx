@@ -196,7 +196,7 @@ const AddProductsPage: React.FC = () => {
         Lisää matskuja
       </Typography>
 
-      <Typography variant='body1' sx={{marginTop: '20px', marginBottom: '20px'}}>Kuvan lähetettyäsi tekoäly pyrkii tunnistamaan siitä tuotetiedot ja täyttämään tuotekortteihin mahdollisimman paljon tietoa sinulle valmiiksi.</Typography>
+      <Typography variant='body1' sx={{marginTop: '20px', marginBottom: '20px'}}>Kuvan lähetettyäsi tekoäly pyrkii tunnistamaan siitä tuotetiedot ja täyttämään tuotekorttiin mahdollisimman paljon tietoa sinulle valmiiksi.</Typography>
 
       {/* Image Selector */}
       <input
@@ -214,7 +214,7 @@ const AddProductsPage: React.FC = () => {
       {selectedImage && <img src={selectedImage} alt="Selected" style={{ maxWidth: '30%', marginTop: 16 }} />}
 
       {/* Material Options - Linked Checkboxes/Radio Buttons */}
-      <Typography variant="h6" style={{ marginTop: 24 }}>
+      {/* <Typography variant="h6" style={{ marginTop: 24 }}>
         Materiaalin valinta
       </Typography>
       <RadioGroup
@@ -231,7 +231,7 @@ const AddProductsPage: React.FC = () => {
           control={<Radio />}
           label="Kuvassa on useampaa materiaalia"
         />
-      </RadioGroup>
+      </RadioGroup> */}
 
       {/* Submit Button */}
       <Button

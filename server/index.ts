@@ -29,12 +29,12 @@ const authenticateToken = (req: Request, res: Response, next: any) => {
   const token = authHeader?.split(' ')[1]; // Retrieve the token after 'Bearer'
 
   if (!token) {
-    return res.status(401).json({ message: 'Access denied' });
+    return res.status(403).json({ message: 'Access denied' });
   }
 
   jwt.verify(token, String(process.env.SECRET_KEY!), (err, user) => {
     if (err) {
-      // console.error('JWT verification failed:', err); // Log the error details
+      //console.error('JWT verification failed:', err); // Log the error details
       return res.status(403).json({ message: 'Invalid token' });
     }
     next();

@@ -31,13 +31,12 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
               content: [
               {
                   type: "text",
-                  text: dedent`Could you help me make a product listing of the material/product in this image?
-                        The product/material is to be sold on a used/excess material marketplace.
-                        I will give you a JSON where you can fill all info of the product/material. In categories -key, choose which categories apply to 
-                        the product and leave those as the value, you can select many if they fit the material/product.
-                        Empty all other prefilled values and create new ones in finnish. In keywords -key, push important words
-                        from the description as array of strings. 
-                        Fill this JSON and return it only: ${fillableJson}`
+                  text: dedent`Voisitko auttaa minua luomaan tuotelistauksen tämän kuvan materiaalista/tuotteesta?  
+                  Materiaali/tuote on tarkoitus myydä käytettyjen/yli jääneiden materiaalien markkinapaikalla.  
+                  Annan sinulle JSON-tiedoston, johon voit täyttää kaikki materiaalin/tuotteen tiedot.  
+                  "categories" -avaimen kohdalla valitse vaihtoehdoista, mitkä kategoriat sopivat tuotteeseen/materiaaliin, ja jätä vain ne arvoksi. Voit valita useita kategorioita, jos ne sopivat tuotteeseen/materiaaliin.  
+                  "keywords" -avaimen kohdalla lisää tärkeimmät sanat luomastasi tuotteen kuvauksesta taulukkoon merkkijonoina.  
+                  Täytä tämä JSON-tiedosto ja palauta vain se: ${fillableJson}`
               },
               {
                   type: "image_url",
