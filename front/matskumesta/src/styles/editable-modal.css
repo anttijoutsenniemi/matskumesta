@@ -1,0 +1,22 @@
+.category-button {
+    margin: 2px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.add-category-button-single {
+    margin: 2px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #136F63;
+    color: white;
+}
+
+.category-option-button {
+    margin: 2px;
+    padding: 5px;
+    border-radius: 5px;
+}

@@ -275,6 +275,86 @@ const AddProductsPage: React.FC = () => {
   
   }
 
+  const aiSearch2 = async (input: string) => {
+    setLoadingMessage("Hetkinen...");
+    setLoading(true);
+    setErrorMessage("");
+
+    try {
+        /* AI QUERY BLOCK */
+
+        let token2: string = token || "juu";
+        let aiJson = await analyzeUserText(input, logout, token2);
+
+        if (aiJson) {
+            if (typeof aiJson === 'string') {
+                aiJson = JSON.parse(aiJson);
+            }
+
+            let userProductArray = [];
+            let categoriesMatch = [];
+            let keywordsMatch = [];
+
+            if (aiJson.noCategoryMatches) {
+                setFoundAiText("Valikoimasta ei tällä kertaa löytynyt täysin tarpeisiisi sopivia matskuja, tässä kuitenkin muutamat satunnaiset matskut: ");
+
+                // Fetch and display random products
+                userProductArray = await fetchRandomProducts(logout, token2);
+
+            } else {
+                // Fetch matching products by category
+                let categories: string[] = aiJson.categories;
+                categoriesMatch = await fetchMatchingProdsByCategory(categories, logout, token2);
+
+                // Fetch matching products by keywords
+                if (aiJson.keywords) {
+                    keywordsMatch = await fetchMatchingProdsByKeywords(aiJson.keywords, logout, token2);
+                }
+
+                // Combine results ensuring unique products
+                const uniqueProductsMap = new Map();
+                
+                [...categoriesMatch, ...keywordsMatch].forEach(userProduct => {
+                    userProduct.products.forEach((product : any) => {
+                        const uniqueKey = `${userProduct.username}-${product.title}`;
+                        if (!uniqueProductsMap.has(uniqueKey)) {
+                            uniqueProductsMap.set(uniqueKey, {
+                                username: userProduct.username,
+                                product: product
+                            });
+                        }
+                    });
+                });
+
+                userProductArray = Array.from(uniqueProductsMap.values()).map(item => ({
+                    username: item.username,
+                    products: [item.product]
+                }));
+            }
+
+            if (userProductArray.length === 0) {
+                // Fetch and display random products if no matches are found
+                setFoundAiText("Valikoimasta ei tällä kertaa löytynyt täysin tarpeisiisi sopivia matskuja, tässä kuitenkin muutamat satunnaiset matskut: ");
+                userProductArray = await fetchRandomProducts(logout, token2);
+            } else {
+                setFoundAiText("Löysin valikoimasta nämä matskut jotka saattaisivat sopia tarpeisiisi: ");
+            }
+
+            setLoading(false);
+            setBuyerFoundProducts(userProductArray);
+            navigate('/buyerfoundproducts');
+        } else {
+            setErrorMessage('Error occurred fetching AI response, the service might be down. Please try again later.');
+        }
+    } catch (error) {
+        console.error(error);
+        setErrorMessage('An unexpected error occurred. Please try again later.');
+    } finally {
+        setLoading(false);
+    }
+};
+
+
 
   return  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             {/* Header Container */}
@@ -302,7 +382,7 @@ const AddProductsPage: React.FC = () => {
               Kerro mitä etsit tai valitse valmiista vaihtoehdoista.
             </Typography>
             <div className='input-box'>
-              <InputField receiveInput={receiveInputAndSearchAllMethods}/>
+              <InputField receiveInput={aiSearch2}/>
             </div>
         </div>;
 };

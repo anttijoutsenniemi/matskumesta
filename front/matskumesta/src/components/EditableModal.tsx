@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import './../styles/editable-modal.css';
 import { Typography, TextField, Button, Select, MenuItem } from '@mui/material';
 import { Product } from './ProductGrid';
 import useStore from '../stores/useStore';
@@ -15,7 +16,7 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
   const { selectedProduct, manyFilledProducts, setManyFilledProducts } = useStore();
   const [categories, setCategories] = useState(editableProduct.categories || []);
   const [showCategoryOptions, setShowCategoryOptions] = useState(false);
-
+  const [modalError, setModalError] = useState<string>('');
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -92,10 +93,15 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
   };
 
   const confirmProduct = () => {
+    if(!editableProduct.categories || editableProduct.categories.length < 1 || !editableProduct.title){
+      setModalError('Lisää vähintään otsikko ja yksi kategoria');
+      return;
+    }
     const updatedArr = manyFilledProducts.map((product : Product) =>
       product.id === editableProduct.id ? editableProduct : product
     );
     setManyFilledProducts(updatedArr);
+    setModalError('');
     closeModal();
   }
 
@@ -148,11 +154,11 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
           editableProduct.categories ? (
           editableProduct.categories.map((category, index) => (
             <div key={index} className="category-item">
-              <button className="category-button">
+              <button className="category-button" onClick={() => handleRemoveCategory(index)}>
                 {category}
                 <span
                   className="delete-icon"
-                  onClick={() => handleRemoveCategory(index)}
+                  style={{marginLeft: '5px'}}
                 >
                   ✖
                 </span>
@@ -165,10 +171,10 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
 
         {/* Add category button */}
         <button
-          className="add-category-button"
+          className="add-category-button-single"
           onClick={() => setShowCategoryOptions(!showCategoryOptions)}
         >
-          Lisää kategoria
+          Lisää kategoria +
         </button>
 
         {/* Horizontal scrollable category options */}
@@ -229,6 +235,7 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
       <div className="modal-field" key={field}>
         <Typography variant="subtitle1">{label}</Typography>
         <TextField
+          placeholder='Täytä halutessasi...'
           value={stringValue}
           onChange={(e) => handleChange(field as keyof Product, e.target.value)}
           variant="outlined"
@@ -337,7 +344,15 @@ const EditableModal: React.FC<ModalProps> = ({ product, onClose, isOpen }) => {
         </div> */}
         {/* HERE ENDS OLD COMPO */}
 
-        <footer className="modal-footer">
+        <footer className="modal-footer" style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
+
+            {
+              modalError && (
+                <div style={{padding: '5px', marginBottom: '5px'}}>
+                  <Typography style={{color: 'red'}}>{modalError}</Typography>
+                </div>
+              )
+            }
 
             <Button variant="contained" color="primary" onClick={confirmProduct}>
               Vahvista tuotetiedot
