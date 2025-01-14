@@ -376,10 +376,10 @@ const AddProductsPage: React.FC = () => {
             </div>
             {/* Page Title */}
             <Typography variant="h4" gutterBottom>
-                Etsi matskuja
+                Etsi matskuja tekoälyhaulla
             </Typography>
             <Typography variant="h6" gutterBottom sx={{marginBottom: '20px'}}>
-              Kerro mitä etsit tai valitse valmiista vaihtoehdoista.
+              Kerro esimerkiksi mitä etsit tai kuvaile mitä olet rakentamassa. Tekoälymalli analysoi hakusi ja etsii sopivat tuotteet.
             </Typography>
             <div className='input-box'>
               <InputField receiveInput={aiSearch2}/>
