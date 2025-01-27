@@ -64,4 +64,7 @@
   .input-box {
     width: 100%;
   }
+  .landing-page-container {
+    padding: 10px;
+  }
 }

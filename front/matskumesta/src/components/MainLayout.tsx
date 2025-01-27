@@ -19,6 +19,9 @@ const MainContainer = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     maxWidth: '80%', // Adjust width for desktop
   },
+  [theme.breakpoints.down('sm')]: {
+    padding: 0, // Remove padding for mobile screens
+  },
 }));
 
 const Header = styled(AppBar)({
@@ -43,7 +46,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       // case '/home':
       //   return 'Etusivu';
       default:
-        return 'MatskuMesta';
+        return '';
     }
   };
 
@@ -64,7 +67,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Header>
         <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Matskumesta
+            MatskuMesta
           </Typography>
           <Typography variant="subtitle1">{subtitle}</Typography>
           <IconButton

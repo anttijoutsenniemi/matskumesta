@@ -60,7 +60,7 @@ const InputField: React.FC<InputProps> = (props) => {
           value={input}
           onChange={handleInputChange}
           className="rounded-input"
-          placeholder="Kirjoita tähän tai valitse ylhäältä..."
+          placeholder="Kuvaile tarvettasi tai valitse ylhäältä..."
           rows={1} // Start with one row
           style={{
             fontSize: '16px',

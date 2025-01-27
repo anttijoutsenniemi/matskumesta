@@ -159,9 +159,9 @@ export const fillDataForSingleProduct = async (picUrl : string) => {
       let contentArray : object[] = [
         {
             type: "text",
-            text: dedent`Voisitko auttaa minua selvittämään, mitkä annetuista kategorioista sopivat käyttäjän kirjoittamassa tekstissä kuvattuihin tarpeisiin: ${userText} (käyttäjän teksti päättyy).  
+            text: dedent`Voisitko auttaa minua selvittämään, mitkä kaikki annetuista kategorioista ovat lähimpänä käyttäjän kirjoittamassa hakutekstissä kuvattuja tarpeita. ${userText} (käyttäjän teksti päättyy).
             Annan sinulle JSON-tiedoston, joka sisältää kategoriat ja muita avaimia.  
-            Aseta "noCategoryMatches" -avain arvoon true, jos mikään kategorioista ei sovi.  
+            Aseta "noCategoryMatches" -avain arvoon true, jos mitkään kategorioista ei ole lähelläkään käyttäjän tekstin tarpeita.
             "explanation" -avaimen kohdalle kirjoita suomeksi perustelusi siitä, miksi valitsemasi kategoriat sopivat.  
             "categories" -avaimen kohdalla jätä vain ne kategoriat, jotka sopivat, ja poista muut. Voit valita useita, jos ne sopivat.  
             "keywords" -avaimen kohdalle lisää kaikki tärkeät sanat käyttäjän tekstistä merkkijonotaulukkoon, joita käyttäjä saattaisi etsiä.  

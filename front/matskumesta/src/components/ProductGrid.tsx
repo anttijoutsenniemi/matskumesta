@@ -40,7 +40,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick, use
     <Box
       display="flex"
       flexWrap="wrap"
-      justifyContent={sortedProducts.length === 1 ? 'center' : 'space-between'} // Center single card
+      justifyContent={{
+        xs: 'center', //center on mobile
+        md: sortedProducts.length === 1 ? 'center' : 'space-between'}} // Center single card
       sx={{
         gap: 2, // Space between the cards
       }}

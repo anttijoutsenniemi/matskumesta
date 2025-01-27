@@ -110,7 +110,7 @@ const BuyerHomePage: React.FC = () => {
                 ))              
                   
                 : <>
-                    <Typography variant='subtitle1' sx={{marginBottom: '10px'}}>Et ole vielä varannut matskuja, alla olevasta napista pääset helposti löytämään tarpeisiisi sopivia matskuja tekoälyn avulla!</Typography>
+                    <Typography variant='subtitle1' sx={{marginBottom: '10px'}}>Sinulla ei ole varauksia.</Typography>
                   </>
               }
               

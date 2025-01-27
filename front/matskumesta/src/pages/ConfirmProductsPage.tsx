@@ -72,7 +72,7 @@ const ConfirmProductsPage: React.FC = () => {
               </IconButton>
             </div>
             <Typography variant='h4'>Tarkista tuotetiedot: </Typography>
-            <Typography variant='body1' sx={{marginBottom: '10px', marginTop: '10px'}}>Klikkaa tuotekortteja muokkaaksesi</Typography>
+            <Typography variant='body1' sx={{marginBottom: '10px', marginTop: '10px'}}>Klikkaa tuotekortteja muokataksesi</Typography>
               <ProductGrid products={manyFilledProducts} onProductClick={handleProductClick}/>
               <EditableModal product={selectedProduct} isOpen={modalOpen} onClose={closeModal}/>
               <Button variant="contained" sx={{marginBottom: '10px', marginTop: '10px'}} color="primary" onClick={confirmProducts}>
