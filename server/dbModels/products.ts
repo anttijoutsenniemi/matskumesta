@@ -321,21 +321,29 @@ const productsModel = () => {
                         _id: 0,  // Exclude _id
                         username: 1,  // Include username
                         products: {
-                            $filter: {
-                                input: "$products",
-                                as: "product",
-                                cond: { 
-                                    $anyElementTrue: {
-                                        $map: {
-                                            input: "$$product.categories",
-                                            as: "category",
-                                            in: { $in: ["$$category", categories] }  // Check if each product's category exists in the input categories
+                            $slice: [
+                                {                                
+                                    $filter: {
+                                        input: "$products",
+                                        as: "product",
+                                        cond: { 
+                                            $anyElementTrue: {
+                                                $map: {
+                                                    input: "$$product.categories",
+                                                    as: "category",
+                                                    in: { $in: ["$$category", categories] }  // Check if each product's category exists in the input categories
+                                                }
+                                            }
                                         }
                                     }
-                                }
-                            }
+                                },
+                                10 //Limit of x products per user
+                            ]
                         }
                     }
+                },
+                {
+                    $limit: 20 //Limit of x users
                 }
             ]).toArray();
     
@@ -363,21 +371,29 @@ const productsModel = () => {
                         _id: 0,  // Exclude _id
                         username: 1,  // Include username
                         products: {
-                            $filter: {
-                                input: "$products",
-                                as: "product",
-                                cond: { 
-                                    $anyElementTrue: {
-                                        $map: {
-                                            input: "$$product.keywords",
-                                            as: "keyword",
-                                            in: { $in: ["$$keyword", keywords] }  // Check if each product's keyword exists in the input categories
+                            $slice: [
+                                {
+                                    $filter: {
+                                        input: "$products",
+                                        as: "product",
+                                        cond: { 
+                                            $anyElementTrue: {
+                                                $map: {
+                                                    input: "$$product.keywords",
+                                                    as: "keyword",
+                                                    in: { $in: ["$$keyword", keywords] }  // Check if each product's keyword exists in the input categories
+                                                }
+                                            }
                                         }
                                     }
-                                }
-                            }
+                                },
+                                10 //Limit of x amount of products
+                            ]
                         }
                     }
+                },
+                {
+                    $limit: 20 //Limit of x users
                 }
             ]).toArray();
     
