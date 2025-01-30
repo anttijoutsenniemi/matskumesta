@@ -302,19 +302,21 @@ const AddProductsPage: React.FC = () => {
                 userProductArray = await fetchRandomProducts(logout, token2);
 
             } else {
-                // Fetch matching products by category
-                let categories: string[] = aiJson.categories;
-                categoriesMatch = await fetchMatchingProdsByCategory(categories, logout, token2);
+
 
                 // Fetch matching products by keywords
                 if (aiJson.keywords) {
                     keywordsMatch = await fetchMatchingProdsByKeywords(aiJson.keywords, logout, token2);
                 }
 
+                // Fetch matching products by category
+                let categories: string[] = aiJson.categories;
+                categoriesMatch = await fetchMatchingProdsByCategory(categories, logout, token2);
+                
                 // Combine results ensuring unique products
                 const uniqueProductsMap = new Map();
                 
-                [...categoriesMatch, ...keywordsMatch].forEach(userProduct => {
+                [...keywordsMatch, ...categoriesMatch].forEach(userProduct => {
                     userProduct.products.forEach((product : any) => {
                         const uniqueKey = `${userProduct.username}-${product.title}`;
                         if (!uniqueProductsMap.has(uniqueKey)) {
